@@ -1,0 +1,10 @@
+
+
+export enum BcFournisseur {
+   ENVOYER = 'ENVOYER',
+   RECU = 'RECU',
+   ANNULER = 'ANNULER',
+   CLOTURER = 'CLOTURER',
+   LIVRER_PARTIELLEMENT ='LIVRER_PARTIELLEMENT'
+
+}

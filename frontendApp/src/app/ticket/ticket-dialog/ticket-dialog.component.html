@@ -1,0 +1,16 @@
+<!-- src/app/components/ticket-dialog/ticket-dialog.component.html -->
+<h1 mat-dialog-title>{{data.id ? 'Modifier' : 'Ajouter'}} un Ticket</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Titre</mat-label>
+    <input matInput [(ngModel)]="data.titre" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea matInput [(ngModel)]="data.description" required></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button (click)="onSave()">Enregistrer</button>
+</div>

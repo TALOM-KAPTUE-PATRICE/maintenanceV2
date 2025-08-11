@@ -1,0 +1,261 @@
+@use "sass:color";
+
+$primary-color: #4285f4;
+$secondary-color: #34a853;
+$error-color: #d50000;
+
+
+body {
+  background-color: #f1f1f1;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; // Hauteur de la fenêtre
+  margin: 0;
+}
+
+.btn {
+  border: none;
+  border-radius: 15px;
+
+}
+
+ .logo-container {
+    .app-logo-form {
+      max-width: 80px;
+      margin-bottom: 15px;
+    }
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .app-logo {
+    height: 50px;
+    width: auto;
+  }
+
+  // Styles pour le message d'erreur de connexion
+.login-error-message {
+  background-color: #f8d7da; // Un fond rouge clair pour l'alerte
+  color: #721c24;            // Texte rouge foncé
+  border: 1px solid #f5c6cb; // Bordure rouge plus foncée
+  padding: 12px 15px;
+  border-radius: 4px;
+  margin-bottom: 20px; // Espace avant le bouton "Se souvenir de moi" ou le bouton de soumission
+  display: flex;
+  align-items: center;
+  gap: 8px; // Espace entre l'icône et le texte
+
+  mat-icon {
+    font-size: 20px; // Ajuste la taille de l'icône d'erreur
+    height: 20px;
+    width: 20px;
+  }
+
+  span {
+    font-size: 0.9em;
+    font-weight: 500;
+  }
+}
+
+
+
+.signin-with-socials p {
+  text-align: center;
+  color: #4285f4;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.sign-in-area {
+  width: 100%;
+  max-width: 400px; // Largeur maximale du formulaire
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 8% auto;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column; // Aligne les enfants verticalement
+  align-items: center; // Centre horizontalement
+
+  .title {
+    margin-bottom: 20px;
+
+    h3 {
+      font-size: 24px;
+      color: $primary-color;
+      margin: 0;
+    }
+
+    p {
+      font-size: 14px;
+      color: #666;
+    }
+  }
+
+  // Styles pour le bouton de soumission (optionnel, pour le rendre pleine largeur par exemple)
+form {
+  // ... autres styles de votre formulaire ...
+
+  .submit-button {
+    width: 100%; // Bouton pleine largeur
+    padding: 10px 0; // Ajuster le padding vertical
+    font-size: 1em;
+    margin-top: 20px; // Espace après la section "info"
+
+    mat-progress-spinner {
+        // Ajustements pour le spinner dans le bouton si nécessaire
+        // Par exemple, pour l'alignement vertical avec le texte :
+        ::ng-deep circle { // Pour cibler l'élément SVG du spinner Material
+            stroke: white; // Si le bouton a un fond sombre, pour que le spinner soit visible
+        }
+    }
+  }
+}
+
+  .signin-with-socials {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 15px;
+
+    button {
+      display: flex;
+      align-items: center;
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      height: 57px;
+      cursor: pointer;
+      border-radius: 4px;
+      padding: 6px 8px;
+      margin: 8px 5px;
+      transition: background-color 0.3s;
+
+      img {
+        width: 30px;
+        margin-left: 40px;
+        margin-right: 10px;
+      }
+
+      // Remplacer darken par color.adjust
+      &:hover {
+        background-color: color.adjust($primary-color, $lightness: -10%);
+      }
+    }
+
+    .or {
+      text-align: center;
+      margin: 0 10px;
+      color: #666;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+
+    label {
+      font-weight: 500;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    mat-form-field {
+      width: 100%;
+
+      mat-label {
+        color: $primary-color;
+      }
+
+      mat-icon {
+        color: $primary-color;
+      }
+
+      // input {
+      //   border-radius: 4px;
+      //   padding: 10px;
+
+      //   &:focus {
+      //     border-color: $primary-color;
+      //     box-shadow: 0 0 5px rgba($primary-color, 0.5);
+      //   }
+      // }
+    }
+
+    .mat-error {
+      font-size: 12px;
+      color: $error-color;
+    }
+  }
+
+  .info {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 5px;
+
+    mat-checkbox {
+      color: $primary-color;
+    }
+
+    a {
+      color: $primary-color;
+      text-decoration: none;
+      margin-left: 10px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+
+    // Remplacer darken par color.adjust
+    &:hover {
+      background-color: color.adjust($primary-color, $lightness: -10%);
+    }
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 600px) {
+  .sign-in-area {
+    padding: 15px;
+
+    .title h3 {
+      font-size: 20px;
+    }
+
+    button[type="submit"] {
+      font-size: 14px;
+    }
+  }
+}
+
+form {
+  margin: 0 auto;
+}

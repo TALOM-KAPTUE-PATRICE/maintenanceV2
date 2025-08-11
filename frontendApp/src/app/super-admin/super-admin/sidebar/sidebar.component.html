@@ -1,0 +1,265 @@
+<div
+    class="sidebar-area bg-white transition active"
+    [ngClass]="{'active': isSidebarToggled}"
+    [class.card-borderd]="themeService.isCardBordered()"
+    [class.dark-sidebar]="themeService.isSidebarDark()"
+    [class.hide-sidebar]="themeService.isHideSidebar()"
+    [class.component-dark-theme]="themeService.isDark()"
+    [class.right-sidebar]="themeService.isRightSidebar()"
+    [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+    [class.card-with-box-shadow]="themeService.isCardWithBoxShadow()"
+>
+    <div class="logo bg-white">
+        <a routerLink="/home" class="d-flex align-items-center position-relative">
+            <img src="assets/images/BETANG.JPG" class="transition position-relative" alt="logo-icon">
+            <span class="fw-bold text-black lh-1 transition position-relative">
+                BETANG
+            </span>
+        </a>
+    </div>
+    <div
+        (click)="toggle()"
+        class="burger-menu transition"
+        [ngClass]="{'active': isSidebarToggled}"
+    >
+        <span class="top-bar transition d-block bg-black"></span>
+        <span class="middle-bar transition d-block bg-black"></span>
+        <span class="bottom-bar transition d-block bg-black"></span>
+    </div>
+    <ng-scrollbar visibility="hover">
+        <div class="sidebar-inner">
+            <div class="sidebar-menu">
+                <mat-accordion>
+                  <span class="sub-title d-block fw-medium text-uppercase">
+                    USERS
+                  </span>
+                  <a routerLink="/home/dashboard" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                      <mat-icon matPrefix>dashboard</mat-icon>
+                      <span class="title">
+                          Dashboard
+                      </span>
+                  </a>
+                    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                              <mat-icon>confirmation_number</mat-icon>
+                                <span class="title">
+                                    Tickets
+                                </span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ul class="sidebar-sub-menu">
+                            <li class="sidemenu-item">
+                                <a routerLink="/home/tickets" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                    Liste Tickets
+                                </a>
+                            </li>
+                            <li class="sidemenu-item">
+                                <a routerLink="/features" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                    Evaluations
+                                </a>
+                              </li>
+                        </ul>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+                      <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            <mat-icon>shopping_cart</mat-icon>
+                              <span class="title">
+                                  DA
+                              </span>
+                          </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <ul class="sidebar-sub-menu">
+                          <li class="sidemenu-item">
+                              <a routerLink="/home/da" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                  Liste DA
+                              </a>
+                          </li>
+                          <li class="sidemenu-item">
+                              <a routerLink="/features" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                  Evaluations
+                              </a>
+                            </li>
+                      </ul>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <mat-icon>assignment</mat-icon>
+                            <span class="title">
+                                Devis
+                            </span>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul class="sidebar-sub-menu">
+                        <li class="sidemenu-item">
+                            <a routerLink="/home/devis" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                Liste Devis
+                            </a>
+                        </li>
+                        <li class="sidemenu-item">
+                            <a routerLink="/features" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                Evaluations
+                            </a>
+                          </li>
+                    </ul>
+                </mat-expansion-panel>
+                <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+                  <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <mat-icon>receipt</mat-icon>
+                          <span class="title">
+                              Bon de commande
+                          </span>
+                      </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <ul class="sidebar-sub-menu">
+                      <li class="sidemenu-item">
+                          <a routerLink="/home/bonCommande" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                              Liste des Bons
+                          </a>
+                      </li>
+                      <li class="sidemenu-item">
+                          <a routerLink="/features" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                              Evaluations
+                          </a>
+                        </li>
+                  </ul>
+              </mat-expansion-panel>
+              <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <mat-icon>monetization_on</mat-icon>
+                        <span class="title">
+                            Factures
+                        </span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <ul class="sidebar-sub-menu">
+                    <li class="sidemenu-item">
+                        <a routerLink="/home/facture" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                            Liste Factures
+                        </a>
+                    </li>
+                    <li class="sidemenu-item">
+                        <a routerLink="/features" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                            Evaluations
+                        </a>
+                      </li>
+                </ul>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon>bar_chart</mat-icon>
+                      <span class="title">
+                          Statistiques
+                      </span>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ul class="sidebar-sub-menu">
+                  <li class="sidemenu-item">
+                      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                          Depenses
+                      </a>
+                  </li>
+                  <li class="sidemenu-item">
+                      <a routerLink="/features" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                          Benefices
+                      </a>
+                    </li>
+              </ul>
+          </mat-expansion-panel>
+          <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>assignment_turned_in</mat-icon>
+                    <span class="title">
+                        Suivi des Travaux
+                    </span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul class="sidebar-sub-menu">
+                <li class="sidemenu-item">
+                    <a routerLink="/home/travaux" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                        Etats d'avancements
+                    </a>
+                </li>
+                <li class="sidemenu-item">
+                    <a routerLink="/features" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                        Evaluations du projet
+                    </a>
+                  </li>
+            </ul>
+        </mat-expansion-panel>
+                    <span class="sub-title d-block fw-medium text-uppercase">
+                        ADMIN
+                    </span>
+                    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+                      <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            <mat-icon matPrefix>people</mat-icon>
+                              <span class="title">
+                                  Comptes
+                              </span>
+                          </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <ul class="sidebar-sub-menu">
+                          <li class="sidemenu-item">
+                              <a routerLink="/home/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                  Liste des Comptes
+                              </a>
+                          </li>
+                          <li class="sidemenu-item">
+                              <a routerLink="/features" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                  Evaluations
+                              </a>
+                            </li>
+                      </ul>
+                  </mat-expansion-panel>
+                    <span class="sub-title d-block fw-medium text-uppercase">
+                        OTHERS
+                    </span>
+                    <a routerLink="/home/profile" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                      <mat-icon matPrefix>account_circle</mat-icon>
+                        <span class="title">
+                           Profil
+                        </span>
+                    </a>
+                    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                              <mat-icon matPrefix>settings</mat-icon>
+                                <span class="title">
+                                    Parametres
+                                </span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ul class="sidebar-sub-menu">
+                            <li class="sidemenu-item">
+                                <a routerLink="/dashboard/settings/change-password" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                    Changer de mot de passe
+                                </a>
+                            </li>
+                            <li class="sidemenu-item">
+                                <a routerLink="/dashboard/settings/privacy-policy" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                    Politique de Confidentialité
+                                </a>
+                            </li>
+                            <li class="sidemenu-item">
+                                <a routerLink="/dashboard/settings/terms-conditions" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                    Conditions d'utilisation
+                                </a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                    <a routerLink="/" (click)="logout()" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                      <mat-icon matPrefix>logout</mat-icon>
+                        <span class="title">Deconnexion</span>
+                    </a><br><br>
+                </mat-accordion>
+            </div>
+        </div>
+    </ng-scrollbar>
+</div>

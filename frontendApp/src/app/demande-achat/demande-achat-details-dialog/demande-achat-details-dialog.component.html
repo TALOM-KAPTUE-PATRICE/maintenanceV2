@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Détails de la Demande d'Achat</h2>
+<mat-dialog-content>
+  <p><strong>ID:</strong> {{ data.id }}</p>
+  <p><strong>Nom Initiateur:</strong> {{ data.nomInitiateur }}</p>
+  <p><strong>Date de Création:</strong> {{ data.dateCreationDa | date }}</p>
+  <p><strong>Lieu de Livraison:</strong> {{ data.lieuLivraison }}</p>
+  <p><strong>Service Demandeur:</strong> {{ data.serviceDemanadeur }}</p>
+  <p><strong>Objet:</strong> {{ data.objet }}</p>
+  <p><strong>Description Ticket:</strong> {{ data.descriptionTicket }}</p>
+  <p><strong>Numéro Devis:</strong> {{ data.numeroDevis }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="close()">Fermer</button>
+</mat-dialog-actions>

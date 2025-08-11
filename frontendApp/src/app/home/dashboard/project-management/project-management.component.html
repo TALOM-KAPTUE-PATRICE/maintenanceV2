@@ -1,0 +1,73 @@
+<div *appHasPermission="'DASHBOARD_VIEW'">
+
+   
+        <div class="col-xxl-6">
+
+            <!-- Projects Overview -->
+            <app-projects-overview />
+
+        </div>
+        <div class="col-xxl-6">
+
+            <!-- Projects Roadmap -->
+
+
+        </div>
+        <div class="col-lg-7">
+
+            <!-- Projects Progress -->
+
+
+        </div>
+        <div class="col-lg-5">
+
+            <!-- My Tasks -->
+
+
+        </div>
+        <div class="col-lg-12">
+
+            <!-- All Projects -->
+            <app-all-projects />
+
+        </div>
+        <div class="col-xxl-4 col-xl-12 col-lg-4">
+
+            <!-- Project Analysis -->
+            <app-project-analysis />
+
+        </div>
+        <div class="col-xxl-4 col-xl-6 col-lg-4 col-md-6">
+
+            <!-- Team Members -->
+
+
+        </div>
+        <div class="col-xxl-4 col-xl-6 col-lg-4 col-md-6">
+
+            <!-- Working Schedule -->
+
+
+        </div>
+        <div class="col-lg-8">
+
+            <!-- To Do List -->
+
+
+        </div>
+        <div class="col-lg-4">
+
+            <!-- Tasks Overview -->
+            <app-tasks-overview />
+
+        </div>
+
+
+</div>
+
+<!-- Message à afficher si l'utilisateur n'a pas les droits pour voir le dashboard -->
+<div *ngIf="!(authService.currentUserValue?.permissions?.includes('DASHBOARD_VIEW'))" class="no-permission-message">
+    <mat-icon>info</mat-icon>
+    <h3>Bienvenue, {{ authService.currentUserValue?.nom }} !</h3>
+    <p>Votre tableau de bord personnalisé est en cours de construction. En attendant, veuillez utiliser le menu de navigation pour accéder à vos sections.</p>
+</div>

@@ -1,0 +1,25 @@
+.projects-roadmap-card {
+    .mat-mdc-card-content {
+        .chart {
+            margin: {
+                top: -25px;
+                left: -10px;
+                bottom: -25px;
+            };
+        }
+    }
+}
+
+
+.card {
+    padding: 15px;
+    border-radius: 12px;
+    background-color: #f4f4f4;
+  }
+  
+  .site-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  

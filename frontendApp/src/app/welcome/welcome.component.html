@@ -1,0 +1,138 @@
+<!-- src/app/welcome/welcome.component.html -->
+
+<div class="welcome-container">
+  <header class="app-header">
+    <div class="header-left">
+      <img src="assets/images/reparer (1).png" alt="Logo de l'Application" class="app-logo">
+      <h1 style="font-family: 'DM Mono', monospace;">Maint-Pro</h1>
+    </div>
+
+    <div class="header-right">
+      <button mat-raised-button color="accent" class="login-button" (click)="goToLogin()">
+        <mat-icon>login</mat-icon> Se Connecter
+      </button>
+    </div>
+  </header>
+
+  <!-- NOUVEAU: Grand carousel d'accueil (Hero Carousel) -->
+  <section class="hero-full-width-carousel"
+           (mouseenter)="stopHeroAutoSlide()"
+           (mouseleave)="startHeroAutoSlide()">
+
+    <div class="hero-slides-container">
+      <div class="hero-slide"
+           *ngFor="let slide of heroSlides; let i = index"
+           [class.active]="i === currentHeroSlideIndex"
+           [style.background-image]="'url(' + slide.image + ')'">
+        <div class="hero-slide-overlay">
+          <div class="hero-slide-content">
+            <h2>{{ slide.title }}</h2>
+            <p>{{ slide.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button mat-icon-button class="hero-carousel-nav prev" (click)="prevHeroSlide()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button mat-icon-button class="hero-carousel-nav next" (click)="nextHeroSlide()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+
+    <div class="hero-carousel-indicators">
+      <span *ngFor="let slide of heroSlides; let i = index"
+            class="indicator"
+            [class.active]="i === currentHeroSlideIndex"
+            (click)="goToHeroSlide(i)"></span>
+    </div>
+  </section>
+
+
+
+  <main class="main-content">
+    <!-- Le reste de votre contenu (hero-section avec le carousel de solutions, etc.) -->
+    <!-- Section Héro / Carousel (existante) -->
+    <section class="hero-section mat-elevation-z4">
+      <h2>Transformez la maintenance, boostez la performance !</h2>
+      <p>Découvrez comment notre application simplifie la gestion de vos opérations de maintenance industrielle.</p>
+
+      <div class="carousel-wrapper"
+           (mouseenter)="stopAutoSlide()"
+           (mouseleave)="startAutoSlide()">
+
+        <button mat-icon-button class="carousel-nav prev" (click)="prevSlide()">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+
+        <div class="slides-container" [style.transform]="'translateX(-' + (currentSlideIndex * 100) + '%)'">
+          <div class="slide" *ngFor="let solution of solutions; let i = index">
+            <img [src]="solution.image" [alt]="solution.title" class="solution-image">
+            <div class="slide-content">
+              <h3 class="solution-color">{{ solution.title }}</h3>
+              <p class="solution-color">{{ solution.description }}</p>
+            </div>
+          </div>
+        </div>
+
+        <button mat-icon-button class="carousel-nav next" (click)="nextSlide()">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+
+        <div class="carousel-indicators">
+          <span *ngFor="let solution of solutions; let i = index"
+                class="indicator"
+                [class.active]="i === currentSlideIndex"
+                (click)="goToSlide(i)"></span>
+        </div>
+      </div>
+
+      <div class="call-to-action">
+        <button mat-button color="primary">
+          <mat-icon>info</mat-icon> En savoir plus sur nos fonctionnalités
+        </button>
+      </div>
+    </section>
+
+    <!-- ... (Vos sections "Pourquoi Maint-Pro?", "Chiffres Clés", "Témoignages", "Sécurité & Support", "Roadmap") ... -->
+    <section #animatedSection class="value-prop-section mat-elevation-z2 fade-in-up">
+      <img src="assets/images/undraw_faq_h01d.svg" alt="Notre Vision" class="section-illustration">
+      <h3>Pourquoi "Maint-Pro" ?</h3>
+      <p>Conçue pour transformer notre approche de la maintenance, notre nouvelle plateforme vous offre les outils nécessaires pour optimiser chaque intervention, réduire les temps d'arrêt et garantir la sécurité de nos opérations. Fini le papier, place à l'efficacité connectée !</p>
+      <p>Un outil pensé par et pour nos équipes, pour une performance industrielle inégalée.</p>
+    </section>
+
+    <section #animatedSection class="security-support-section mat-elevation-z2 fade-in-up delay-9">
+      <div #securityInfo class="security-info fade-in-up delay-10">
+        <mat-icon color="primary">security</mat-icon>
+        <h3>Votre Sécurité, Notre Priorité</h3>
+        <p>Vos données et celles de l'entreprise sont notre priorité absolue. L'application utilise des protocoles de sécurité avancés pour garantir la protection de vos informations.</p>
+      </div>
+      <div #supportInfo class="support-info fade-in-up delay-11">
+        <mat-icon color="accent">support</mat-icon>
+        <h3>Besoin d'Aide ?</h3>
+        <p>Accédez à nos <a href="#" target="_blank">tutoriels vidéo</a>, à la <a href="#" target="_blank">FAQ</a> ou contactez notre équipe support à <a href="mailto:support@entreprise.com">supportentreprise.com</a>.</p>
+      </div>
+    </section>
+
+    <section #animatedSection class="roadmap-section mat-elevation-z2 fade-in-up delay-12">
+      <img src="assets/images/undraw_dashboard_p93p.svg" alt="Roadmap" class="section-illustration">
+      <h3>Une Application en Évolution Constante</h3>
+      <p>Cette première version de Maint-Pro est le début d'une transformation continue. De nouvelles fonctionnalités, comme l'intégration des capteurs IoT et la gestion des compétences, sont déjà prévues pour les prochaines mises à jour, co-construites avec vos retours pour toujours mieux répondre à vos besoins.</p>
+    </section>
+
+  </main>
+
+  
+
+  <!-- NOUVEAU: Bouton "Retour en haut" -->
+  <button mat-fab color="accent" class="scroll-to-top-button"
+          [class.show]="showScrollToTopButton"
+          (click)="scrollToTop()">
+    <mat-icon>arrow_upward</mat-icon>
+  </button>
+
+  <footer class="app-footer">
+    <p>© 2023 Votre Entreprise. Tous droits réservés.</p>
+  </footer>
+</div>

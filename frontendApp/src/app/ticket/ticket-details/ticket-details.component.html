@@ -1,0 +1,14 @@
+
+<h2 mat-dialog-title>Détails du Ticket</h2>
+<mat-dialog-content>
+    <p><strong>ID:</strong> {{data.id}}</p>
+    <p><strong>Titre:</strong> {{data.titre}}</p>
+    <p><strong>Description:</strong> {{data.description}}</p>
+    <p><strong>Date de création:</strong> {{data.dateCreation | date}}</p>
+    <p><strong>Utilisateur:</strong> {{data.userNom}}</p>
+    <p><strong>Client:</strong> {{data.clientNom}}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="close()">Fermer</button>
+</mat-dialog-actions>

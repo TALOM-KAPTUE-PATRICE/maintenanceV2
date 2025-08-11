@@ -1,0 +1,20 @@
+<div class="success-dialog-container">
+  <div mat-dialog-title class="success-dialog-title">
+    <mat-icon class="title-icon" color="primary">verified_user</mat-icon> <!-- Ou une autre icône pertinente -->
+    <span>Opération Réussie</span> <!-- Titre plus générique si utilisé ailleurs -->
+  </div>
+
+  <div mat-dialog-content class="success-dialog-content">
+    <div class="icon-container">
+      <mat-icon class="success-icon animated-icon">check_circle_outline</mat-icon>
+    <p class="message-text">{{ data.message }}</p>
+  </div>
+
+  <div mat-dialog-actions class="success-dialog-actions">
+    <button mat-flat-button color="primary" (click)="onClose()" cdkFocusInitial>
+      OK
+    </button>
+    <!-- Si vous voulez une option pour fermer après un délai : -->
+    <!-- <p class="auto-close-info" *ngIf="autoCloseSeconds > 0">Fermeture dans {{ autoCloseSeconds }}s...</p> -->
+  </div>
+</div>

@@ -1,0 +1,101 @@
+<div class="div1">
+  <h2 mat-dialog-title>Ajouter des Articles au Devis {{devisId}}</h2>
+</div>
+<mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="createOrUpdateArticle()">
+    <mat-form-field appearance="fill">
+      <mat-label>Désignation</mat-label>
+      <input matInput formControlName="designation" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Quantité</mat-label>
+      <input matInput type="number" formControlName="quantite" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Prix Unitaire</mat-label>
+      <input matInput type="number" formControlName="prixUnitaire" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Catégorie</mat-label>
+      <mat-select formControlName="categorie" required>
+        <mat-option *ngFor="let categorie of categories" [value]="categorie.id">
+          {{categorie.nomCategorie}} - {{categorie.id}}
+          
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="text-end">
+      <button class="add-new-task-btn" type="submit" mat-button>
+        <i class="material-icons">add</i>
+        Ajouter L'article
+      </button>
+    </div>
+  </form>
+
+  <mat-card class="dt-to-do-list-card mb-25 border-radius d-block bg-white border-0 shadow-none">
+    <mat-card-header>
+      <mat-card-title>
+        <h5>Liste des Articles</h5>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <form class="search-box position-relative">
+          <i class="material-icons">search</i>
+          <input type="text" class="input-search" placeholder="Search here....." (keyup)="applyFilter($event)" #input>
+        </form>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="table-responsive">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="designation">
+            <mat-header-cell *matHeaderCellDef> Désignation </mat-header-cell>
+            <mat-cell *matCellDef="let article"> {{ article.designation }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="quantite">
+            <mat-header-cell *matHeaderCellDef> Quantité </mat-header-cell>
+            <mat-cell *matCellDef="let article"> {{ article.quantite }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="prixUnitaire">
+            <mat-header-cell *matHeaderCellDef> Prix Unitaire </mat-header-cell>
+            <mat-cell *matCellDef="let article"> {{ article.prixUnitaire }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <div class="action-buttons">
+                <button mat-button (click)="viewArticle(element.id)">
+                  <i class="material-icons">visibility</i>
+                </button>
+                <button mat-button (click)="editArticle(element.id)">
+                  <i class="material-icons">edit</i>
+                </button>
+                <button mat-button (click)="deleteArticle(element.id)">
+                  <i class="material-icons">delete</i>
+                </button>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">Aucun article trouvé.</td>
+          </tr>
+        </mat-table>
+      </div>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="close()">Fermer</button>
+</mat-dialog-actions>

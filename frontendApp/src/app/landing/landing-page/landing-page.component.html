@@ -1,0 +1,239 @@
+<div class="landing-container">
+  <!-- ======================== -->
+  <!-- HEADER -->
+  <!-- ======================== -->
+  <header class="landing-header">
+    <div class="header-content">
+      <div class="logo">
+        <img src="assets/images/reparer (1).png" alt="Maint-Pro Logo">
+        <span>Maint-Pro</span>
+      </div>
+      <nav class="d-none d-lg-block">
+        <a href="#features">Fonctionnalités</a>
+        <a href="#pricing">Tarifs</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <a (click)="navigateToLogin()" class="login-btn">Connexion</a>
+        <button mat-flat-button color="primary" class="cta-btn" (click)="navigateToLogin()">Démarrer</button>
+      </div>
+    </div>
+  </header>
+  <!-- ======================== -->
+  <!-- HERO SECTION -->
+  <!-- ======================== -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Pilotez votre Maintenance Industrielle avec Précision</h1>
+    <p class="hero-subtitle">De la demande du client à la facturation, Maint-Pro centralise et simplifie tous vos processus pour une efficacité maximale.</p>
+    <button mat-raised-button color="primary" class="hero-cta" (click)="navigateToLogin()">
+      <mat-icon>rocket_launch</mat-icon>
+      Commencez votre essai gratuit de 14 jours
+    </button>
+    <div class="hero-image-container">
+      <!-- ▼▼▼ REMPLACEMENT DE L'IMAGE PAR LE CARROUSEL ▼▼▼ -->
+      <owl-carousel-o [options]="dashboardCarouselOptions">
+        <ng-template carouselSlide *ngFor="let slide of dashboardImages" [id]="slide.id">
+          <img [src]="slide.src" [alt]="slide.alt" class="hero-image">
+        </ng-template>
+      </owl-carousel-o>
+    </div>
+  </div>
+</section>
+
+  <!-- ======================== -->
+  <!-- FEATURES SECTION -->
+  <!-- ======================== -->
+  <section id="features" class="features-section">
+    <div class="section-container">
+      <h2 class="section-title">La solution tout-en-un pour la maintenance</h2>
+      <p class="section-subtitle">Oubliez les tableurs Excel et les suivis papier. Centralisez tout.</p>
+      <div class="features-grid">
+        <mat-card *ngFor="let feature of features" class="feature-card">
+          <mat-card-header>
+            <div mat-card-avatar class="feature-icon-container"><mat-icon>{{ feature.icon }}</mat-icon></div>
+            <mat-card-title>{{ feature.title }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ feature.description }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ======================== -->
+  <!-- TESTIMONIALS SECTION -->
+  <!-- ======================== -->
+
+<section id="testimonials" class="testimonials-section">
+  <div class="section-container">
+    <h2 class="section-title">Ils nous font confiance au Cameroun</h2>
+    <!-- ▼▼▼ REMPLACEMENT DE LA GRILLE PAR LE CARROUSEL ▼▼▼ -->
+    <owl-carousel-o [options]="testimonialCarouselOptions" class="testimonials-carousel">
+      <ng-template carouselSlide *ngFor="let testimonial of testimonials">
+        <mat-card class="testimonial-card">
+          <p class="quote">"{{ testimonial.quote }}"</p>
+          <div class="author">
+            <img [src]="testimonial.image" alt="Photo de {{ testimonial.name }}">
+            <div class="author-info">
+              <span class="name">{{ testimonial.name }}</span>
+              <span class="company">{{ testimonial.company }}</span>
+            </div>
+          </div>
+        </mat-card>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+</section>
+
+  <!-- ======================== -->
+  <!-- PRICING SECTION -->
+  <!-- ======================== -->
+  <section id="pricing" class="pricing-section">
+    <div class="section-container">
+      <h2 class="section-title">Un tarif simple et adapté à votre croissance</h2>
+      <p class="section-subtitle">Choisissez le plan qui correspond à la taille de votre équipe.</p>
+      <mat-tab-group animationDuration="0ms" class="pricing-tabs">
+        <mat-tab label="Abonnement Mensuel">
+          <div class="pricing-grid">
+            <!-- Plan Essentiel -->
+            <mat-card class="pricing-card">
+              <h3>Essentiel</h3>
+              <p class="price"><span>25 000</span> XAF/mois</p>
+              <ul>
+                <li><mat-icon>check</mat-icon> Jusqu'à 5 utilisateurs</li>
+                <li><mat-icon>check</mat-icon> Gestion des projets & tickets</li>
+                <li><mat-icon>check</mat-icon> Devis & Facturation</li>
+                <li><mat-icon>check</mat-icon> Support par email</li>
+              </ul>
+              <button mat-stroked-button color="primary">Choisir ce plan</button>
+            </mat-card>
+            <!-- Plan Pro -->
+            <mat-card class="pricing-card featured">
+              <span class="featured-badge">Populaire</span>
+              <h3>Professionnel</h3>
+              <p class="price"><span>65 000</span> XAF/mois</p>
+              <ul>
+                <li><mat-icon>check</mat-icon> Jusqu'à 20 utilisateurs</li>
+                <li><mat-icon>check</mat-icon> Tout le plan Essentiel</li>
+                <li><mat-icon>check</mat-icon> Dashboard & KPIs avancés</li>
+                <li><mat-icon>check</mat-icon> Support prioritaire</li>
+              </ul>
+              <button mat-flat-button color="primary">Choisir ce plan</button>
+            </mat-card>
+            <!-- Plan Entreprise -->
+            <mat-card class="pricing-card">
+              <h3>Entreprise</h3>
+              <p class="price"><span>Sur devis</span></p>
+              <ul>
+                <li><mat-icon>check</mat-icon> Utilisateurs illimités</li>
+                <li><mat-icon>check</mat-icon> Tout le plan Pro</li>
+                <li><mat-icon>check</mat-icon> Accompagnement dédié</li>
+                <li><mat-icon>check</mat-icon> API & Intégrations</li>
+              </ul>
+              <button mat-stroked-button color="primary">Nous contacter</button>
+            </mat-card>
+          </div>
+        </mat-tab>
+         <!-- ▼▼▼ CONTENU AJOUTÉ POUR LES PLANS ANNUELS ▼▼▼ -->
+      <mat-tab label="Abonnement Annuel (Économisez 2 mois !)">
+        <div class="pricing-grid">
+          <!-- Plan Essentiel Annuel -->
+          <mat-card class="pricing-card">
+            <h3>Essentiel</h3>
+            <p class="price"><span>250 000</span> XAF/an</p>
+            <p class="saving">Au lieu de 300 000 XAF</p>
+            <ul>
+              <li><mat-icon>check</mat-icon> Jusqu'à 5 utilisateurs</li>
+              <li><mat-icon>check</mat-icon> Gestion des projets & tickets</li>
+              <li><mat-icon>check</mat-icon> Devis & Facturation</li>
+              <li><mat-icon>check</mat-icon> Support par email</li>
+            </ul>
+            <button mat-stroked-button color="primary">Choisir ce plan</button>
+          </mat-card>
+          <!-- Plan Pro Annuel -->
+          <mat-card class="pricing-card featured">
+            <span class="featured-badge">Populaire</span>
+            <h3>Professionnel</h3>
+            <p class="price"><span>650 000</span> XAF/an</p>
+            <p class="saving">Au lieu de 780 000 XAF</p>
+            <ul>
+              <li><mat-icon>check</mat-icon> Jusqu'à 20 utilisateurs</li>
+              <li><mat-icon>check</mat-icon> Tout le plan Essentiel</li>
+              <li><mat-icon>check</mat-icon> Dashboard & KPIs avancés</li>
+              <li><mat-icon>check</mat-icon> Support prioritaire</li>
+            </ul>
+            <button mat-flat-button color="primary">Choisir ce plan</button>
+          </mat-card>
+          <!-- Plan Entreprise Annuel -->
+          <mat-card class="pricing-card">
+            <h3>Entreprise</h3>
+            <p class="price"><span>Sur devis</span></p>
+            <p class="saving"> </p> <!-- Espace pour alignement -->
+            <ul>
+              <li><mat-icon>check</mat-icon> Utilisateurs illimités</li>
+              <li><mat-icon>check</mat-icon> Tout le plan Pro</li>
+              <li><mat-icon>check</mat-icon> Accompagnement dédié</li>
+              <li><mat-icon>check</mat-icon> API & Intégrations</li>
+            </ul>
+            <button mat-stroked-button color="primary">Nous contacter</button>
+          </mat-card>
+        </div>
+      </mat-tab>
+      </mat-tab-group>
+    </div>
+  </section>
+
+  <!-- ======================== -->
+  <!-- FAQ SECTION -->
+  <!-- ======================== -->
+  <section id="faq" class="faq-section">
+    <div class="section-container">
+      <h2 class="section-title">Questions Fréquentes</h2>
+      <mat-accordion multi>
+        <mat-expansion-panel *ngFor="let item of faq">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ item.question }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>{{ item.answer }}</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </section>
+  
+  <!-- ======================== -->
+  <!-- FOOTER -->
+  <!-- ======================== -->
+<footer class="landing-footer">
+  <div class="footer-content">
+    <div class="footer-top">
+      <div class="logo">
+        <img src="assets/images/reparer (1).png" alt="Maint-Pro Logo">
+        <span>Maint-Pro</span>
+        <p>La solution digitale pour la maintenance industrielle au Cameroun.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navigation</h4>
+        <a href="#features">Fonctionnalités</a>
+        <a href="#pricing">Tarifs</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-social">
+        <h4>Suivez-nous</h4>
+        <a href="#" aria-label="Facebook"><i class="ri-facebook-box-fill"></i></a>
+        <a href="#" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="ri-linkedin-box-fill"></i></a>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="footer-bottom">
+      <p>© {{_currentYear}} Maint-Pro by KAPTUE. Tous droits réservés.</p>
+      <nav>
+        <a routerLink="/home/reglesconfidentielles">Politique de Confidentialité</a>
+        <a routerLink="/home/conditionutilisation">Conditions d'Utilisation</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+</div>

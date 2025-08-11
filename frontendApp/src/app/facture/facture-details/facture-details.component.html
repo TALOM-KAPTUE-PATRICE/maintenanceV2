@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Détails de la Facture</h2>
+<mat-dialog-content>
+  <p><strong>ID:</strong> {{ data.id }}</p>
+  <p><strong>Date de Facturation:</strong> {{ data.dateFacturation | date }}</p>
+  <p><strong>Montant:</strong> {{ data.montant | currency }}</p>
+  <p><strong>Numéro Secrétariat:</strong> {{ data.numeroSecretariat }}</p>
+  <p><strong>Email BETANG:</strong> {{ data.emailBE }}</p>
+  <p><strong>Num Betang:</strong> {{ data.numBetang }}</p>
+  <p><strong>Client ID:</strong> {{ data.clientNom}}</p>
+  <p><strong>Devis ID:</strong> {{ data.devisId }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="close()">Fermer</button>
+</mat-dialog-actions>

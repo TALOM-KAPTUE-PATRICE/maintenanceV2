@@ -1,0 +1,104 @@
+<h2>Nombre de devis déposés par site</h2>
+<div class="container">
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <!-- Site Column -->
+    <ng-container matColumnDef="site">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Site </th>
+      <td mat-cell *matCellDef="let element"> {{element.site}} </td>
+    </ng-container>
+  
+    <!-- Nombre de devis Column -->
+    <ng-container matColumnDef="nombreDevis">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre de devis </th>
+      <td mat-cell *matCellDef="let element"> {{element.nombreDevis}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+  <br><br>
+
+  <div class="card-container">
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-icon color="warn">error_outline</mat-icon>
+        <mat-card-title>Devis Non Validés</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ devisNonValides }}</h2>
+      </mat-card-content>
+    </mat-card>
+  
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-icon color="primary">check_circle</mat-icon>
+        <mat-card-title>Devis Validés</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ devisValides }}</h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <h2>Demandes d’achat en attente</h2>
+<div>
+  <button mat-raised-button color="accent"  >
+    DA en attente
+  </button>
+</div>
+<mat-list>
+  <mat-list-item *ngFor="let da of daEnAttente">
+    <mat-icon mat-list-icon>hourglass_empty</mat-icon>
+    <h3 mat-line>{{ da.nom }}</h3>
+    <p mat-line> Statut : {{ da.statut }} </p>
+  </mat-list-item>
+</mat-list>
+
+<mat-card class="card">
+  <mat-card-header>
+    <mat-icon color="warn">cancel</mat-icon>
+    <mat-card-title>DA Annulés</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <h2>{{ daAnnules }}</h2>
+  </mat-card-content>
+</mat-card>
+
+<h2>État des Projets</h2>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!-- Nom du projet Column -->
+  <ng-container matColumnDef="nom">
+    <th mat-header-cell *matHeaderCellDef> Projet </th>
+    <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+  </ng-container>
+
+  <!-- Statut Column -->
+  <ng-container matColumnDef="statut">
+    <th mat-header-cell *matHeaderCellDef> Statut </th>
+    <td mat-cell *matCellDef="let element"> {{element.statut}} </td>
+  </ng-container>
+
+  <!-- Progression Column -->
+  <ng-container matColumnDef="progression">
+    <th mat-header-cell *matHeaderCellDef> Progression </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-progress-bar mode="determinate" [value]="element.progression"></mat-progress-bar>
+      {{element.progression}}%
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsp"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
+
+  
+
+</div>

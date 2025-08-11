@@ -1,0 +1,97 @@
+<div [class.card-without-border-radius]="themeService.isCardWithoutBorderRadius()"
+    [class.card-with-box-shadow]="themeService.isCardWithBoxShadow()"
+    class="header-area bg-white border-bottom-radius transition"
+    [ngClass]="{'active': isSidebarToggled, 'sticky': isSticky}"
+    [class.component-rtl-enabled]="themeService.isRTLEnabled()" [class.right-sidebar]="themeService.isRightSidebar()"
+    [class.hide-sidebar]="themeService.isHideSidebar()" [class.card-borderd]="themeService.isCardBordered()"
+    [class.dark-header]="themeService.isHeaderDark()">
+    <!-- Utiliser *ngIf avec le pipe async pour gérer l'utilisateur -->
+    <ng-container *ngIf="currentUser$ | async as currentUser; else noUserHeader">
+        <div class="d-md-flex align-items-center justify-content-between">
+            <div class="header-left-side d-flex align-items-center">
+                <div class="burger-menu transition position-relative lh-1" [ngClass]="{'active': isSidebarToggled}"
+                    (click)="toggle()">
+                    <mat-icon matPrefix>menu</mat-icon>
+                </div>
+                <form class="search-box position-relative">
+                    <input type="text" class="input-search" placeholder="Rechercher ici ...">
+                    <button type="submit" class="bg-transparent p-0 border-none transition">
+                        <mat-icon matPrefix>search</mat-icon>
+                    </button>
+                </form>
+            </div>
+            <ul class="header-right-side d-flex align-items-center m-0 p-0 list-unstyled">
+                <li>
+                    <button mat-button (click)="toggleTheme()" class="dark-swtich-btn">
+                        <mat-icon matPrefix>{{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+                    </button>
+                </li>
+
+                <li>
+                    <button mat-button [matMenuTriggerFor]="profileMenu" class="profile-menu-btn">
+                        <img [src]="getUserImageUrl(currentUser.imagePath)" class="rounded-circle"
+                            alt="Image de profil">
+                        <span class="fw-semibold text-black d-none d-md-inline"> <!-- Cacher sur petit écran -->
+                            {{ currentUser.nom }}
+                        </span>
+                    </button>
+                    <mat-menu class="profile-menu-dropdown" #profileMenu="matMenu" xPosition="before">
+                        <div class="admin d-flex align-items-center">
+                            <img [src]="getUserImageUrl(currentUser.imagePath)" class="rounded-circle">
+                            <div>
+                                <span class="d-block text-black fw-medium">
+                                    {{ currentUser.nom }}
+                                </span>
+                                <span class="d-block text-muted"> <!-- Couleur plus douce pour poste/role -->
+                                    {{ currentUser.poste }} ({{ currentUser.role }})
+                                </span>
+                            </div>
+                        </div>
+                        <ul class="list p-0 mt-0 mb-0 list-unstyled">
+                            <li>
+                                <a routerLink="/home/profile" class="d-block position-relative">
+                                    <mat-icon matPrefix>account_circle</mat-icon>
+                                    Mon Profil
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="border-top"></div>
+                        <ul class="list p-0 mt-0 mb-0 list-unstyled">
+                            <li>
+                                <a routerLink="/home/settings" class="d-block position-relative">
+                                    <!-- Ajustez la route -->
+                                    <mat-icon matPrefix>settings</mat-icon>
+                                    Paramètres
+                                </a>
+                            </li>
+                            <li>
+                                <a (click)="logout()" class="d-block position-relative" style="cursor: pointer;">
+                                    <mat-icon matPrefix>logout</mat-icon>
+                                    Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </mat-menu>
+                </li>
+                <li>
+                    <button mat-button type="button" class="settings-btn" (click)="settingsButtonToggle()"
+                        [ngClass]="{'active': isToggled}">
+                        <mat-icon matPrefix>settings</mat-icon>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+
+    <!-- Afficher quelque chose si l'utilisateur n'est pas connecté (ne devrait pas arriver si AuthGuard est utilisé) -->
+    <ng-template #noUserHeader>
+        <div class="d-md-flex align-items-center justify-content-between" style="padding: 10px 25px;">
+            <div class="header-left-side">
+                <!-- Logo ou titre de l'application si nécessaire -->
+            </div>
+            <div class="header-right-side">
+                <!-- Peut-être un lien de connexion ici si c'est un header public -->
+            </div>
+        </div>
+    </ng-template>
+</div>

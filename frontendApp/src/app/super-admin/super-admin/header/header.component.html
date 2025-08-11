@@ -1,0 +1,184 @@
+<div
+    [class.card-without-border-radius]="themeService.isCardWithoutBorderRadius()"
+    [class.card-with-box-shadow]="themeService.isCardWithBoxShadow()"
+    class="header-area bg-white border-bottom-radius transition"
+    [ngClass]="{'active': isSidebarToggled, 'sticky': isSticky}"
+    [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+    [class.right-sidebar]="themeService.isRightSidebar()"
+    [class.hide-sidebar]="themeService.isHideSidebar()"
+    [class.card-borderd]="themeService.isCardBordered()"
+    [class.dark-header]="themeService.isHeaderDark()"
+>
+    <div class="d-md-flex align-items-center justify-content-between">
+        <div class="header-left-side d-flex align-items-center">
+            <div
+                class="burger-menu transition position-relative lh-1"
+                [ngClass]="{'active': isSidebarToggled}"
+                (click)="toggle()"
+            >
+            <mat-icon matPrefix>menu</mat-icon>
+            </div>
+            <form class="search-box position-relative">
+                <input type="text" class="input-search" placeholder="Rechercher ici ...">
+                <button type="submit" class="bg-transparent p-0 border-none transition">
+                  <mat-icon matPrefix>search</mat-icon>
+                </button>
+            </form>
+
+        </div>
+        <ul class="header-right-side d-flex align-items-center m-0 p-0 list-unstyled">
+            <li>
+                <button
+                    mat-button
+                    (click)="toggleTheme()"
+                    class="dark-swtich-btn"
+                >
+                <mat-icon matPrefix>light_mode</mat-icon>
+                </button>
+            </li>
+            <li>
+                <button type="button" mat-button [matMenuTriggerFor]="languageMenu" class="language-menu-btn">
+                  <mat-icon matPrefix>translate</mat-icon>
+                </button>
+                <mat-menu class="language-menu-dropdown" #languageMenu="matMenu" xPosition="before">
+                    <span class="title fw-semibold text-black d-block">
+                        Choose Language
+                    </span>
+                    <ul class="menu-body p-0 mb-0 mt-0 list-unstyled">
+                        <li>
+                            <button mat-button>
+                                <img src="images/flags/usa.svg" alt="usa">
+                                English
+                            </button>
+                        </li>
+                        <li>
+                            <button mat-button>
+                                <img src="images/flags/france.svg" alt="france">
+                                French
+                            </button>
+                        </li>
+
+                    </ul>
+                </mat-menu>
+            </li>
+            <li>
+                <button mat-button [matMenuTriggerFor]="notificationsMenu" class="notifications-menu-btn">
+                  <mat-icon matPrefix>notifications</mat-icon>
+                    <div class="dot rounded-circle"></div>
+                </button>
+                <mat-menu class="notifications-menu-dropdown" #notificationsMenu="matMenu" xPosition="before">
+                    <div class="title d-flex align-items-center justify-content-between">
+                        <span class="fw-semibold text-black">
+                            Notifications
+                            <span class="text-body fw-normal">
+                                (03)
+                            </span>
+                        </span>
+                        <a href="javascript:void(0);" class="text-primary">
+                           Nettoyer tout
+                        </a>
+                    </div>
+                    <ul class="menu-body p-0 mt-0 list-unstyled">
+                        <li class="position-relative">
+                            <div class="icon rounded-circle d-flex align-items-center justify-content-center position-absolute text-center transition">
+                              <mat-icon matPrefix>sms</mat-icon>
+                            </div>
+                            <span class="sub-title d-block text-black">
+                                Nouveau message <strong class="fw-semibold"> de patrice</strong>
+                            </span>
+                            <span class="time d-block">
+                                il y'a 2h
+                            </span>
+                            <a routerLink="/dashboard/notifications" class="d-block left-0 top-0 bottom-0 right-0 z-1 position-absolute"></a>
+                        </li>
+                        <li class="position-relative">
+                            <div class="icon rounded-circle d-flex align-items-center justify-content-center position-absolute text-center transition">
+                              <mat-icon matPrefix>person</mat-icon>
+                            </div>
+                            <span class="sub-title d-block text-black">
+                                <strong class="fw-semibold">Nouveau</strong> utilisateur de l'app
+                            </span>
+                            <span class="time d-block">
+                                il y'a 3h
+                            </span>
+                            <a routerLink="/dashboard/notifications" class="d-block left-0 top-0 bottom-0 right-0 z-1 position-absolute"></a>
+                            <span class="unread d-inline-block rounded-circle bg-primary position-absolute"></span>
+                        </li>
+                        <li class="position-relative">
+                            <div class="icon rounded-circle d-flex align-items-center justify-content-center position-absolute text-center transition">
+                              <mat-icon matPrefix>mark_email_unread</mat-icon>
+                            </div>
+                            <span class="sub-title d-block text-black">
+                                Nouveau Email <strong class="fw-semibold">de GOBE</strong>
+                            </span>
+                            <span class="time d-block">
+                                il y'a 1 jour
+                            </span>
+                            <a routerLink="/dashboard/notifications" class="d-block left-0 top-0 bottom-0 right-0 z-1 position-absolute"></a>
+                        </li>
+                    </ul>
+                    <div class="menu-footer text-center">
+                        <a routerLink="/dashboard/notifications" class="d-inline-block fw-medium position-relative text-primary">
+                            Voir toutes les Notifications.
+                        </a>
+                    </div>
+                </mat-menu>
+            </li>
+            <li>
+                <button mat-button [matMenuTriggerFor]="profileMenu" class="profile-menu-btn">
+                    <img  [src]="getUserImageUrl(user.imagePath)" *ngIf="user.imagePath"  class="rounded-circle" alt="admin-image">
+                    <span class="fw-semibold text-black">
+                        {{ user.nom }}
+                    </span>
+                </button>
+                <mat-menu class="profile-menu-dropdown" #profileMenu="matMenu" xPosition="before">
+                    <div class="admin d-flex align-items-center">
+                        <img [src]="getUserImageUrl(user.imagePath)" *ngIf="user.imagePath" class="rounded-circle">
+                        <div>
+                            <span  class="d-block text-black fw-medium">
+                                {{ user.nom }}
+                            </span>
+                            <span class="d-block">
+                                 {{ user.role }}
+                            </span>
+                        </div>
+                    </div>
+                    <ul class="list p-0 mt-0 mb-0 list-unstyled">
+                        <li>
+                            <a routerLink="/home/profile" class="d-block position-relative">
+                              <mat-icon matPrefix>account_circle</mat-icon>
+                               Profil
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="border-top"></div>
+                    <ul class="list p-0 mt-0 mb-0 list-unstyled">
+                        <li>
+                            <a routerLink="/dashboard/settings" class="d-block position-relative">
+                              <mat-icon matPrefix>settings</mat-icon>
+                                Paramtres du compte
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/" (click)="logout()" class="d-block position-relative">
+                              <mat-icon matPrefix>logout</mat-icon>
+                                Deconnexion
+                            </a>
+                        </li>
+                    </ul>
+                </mat-menu>
+            </li>
+            <li>
+                <button
+                    mat-button
+                    type="button"
+                    class="settings-btn"
+                    (click)="settingsButtonToggle()"
+                    [ngClass]="{'active': isToggled}"
+                >
+                <mat-icon matPrefix>settings</mat-icon>
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>

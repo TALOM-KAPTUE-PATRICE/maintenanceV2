@@ -1,0 +1,68 @@
+<div class="profile-container" *ngIf="user; else loadingProfile" [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+>
+  <mat-card class=" profile-card mat-elevation-z8 border-radius d-block bg-white border-0 shadow-none">
+  <mat-card-header class="profile-card-header">
+    <div mat-card-avatar class="profile-avatar-container">
+      <img mat-card-image [src]="getUserImageUrl(user.imagePath)" alt="Photo de profil de {{ user.nom }}"
+        class="profile-avatar-image">
+    </div>
+    <mat-card-title class="profile-name">{{ user.nom }}</mat-card-title>
+    <mat-card-subtitle class="profile-poste">{{ user.poste }}</mat-card-subtitle>
+  </mat-card-header>
+  
+
+  <mat-card-content class="profile-card-content">
+    <h3 class="section-title">
+      <mat-icon>badge</mat-icon> Informations Personnelles
+    </h3>
+    <mat-list role="list">
+      <mat-list-item role="listitem">
+        <mat-icon matListItemIcon>email</mat-icon>
+        <div matListItemTitle>Email</div>
+        <div matListItemLine class="info-value">{{ user.email }}</div>
+      </mat-list-item>
+      <mat-list-item role="listitem" *ngIf="user.numeroTelephone">
+        <mat-icon matListItemIcon>phone</mat-icon>
+        <div matListItemTitle>Téléphone</div>
+        <div matListItemLine class="info-value">{{ user.numeroTelephone }}</div>
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        <mat-icon matListItemIcon>work_outline</mat-icon> <!-- Ou 'assignment_ind' -->
+        <div matListItemTitle>Rôle Global</div>
+        <div matListItemLine class="info-value">{{ user.role }}</div>
+      </mat-list-item>
+    </mat-list>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="section-title">
+      <mat-icon>vpn_key</mat-icon> Permissions Accordées
+    </h3>
+    <div *ngIf="user.permissions && user.permissions.length > 0; else noPermissions" class="permissions-container">
+      <mat-chip-listbox aria-label="Permissions de l'utilisateur">
+        <mat-chip *ngFor="let permission of user.permissions" color="accent" selected disabled>
+          {{ permission }}
+        </mat-chip>
+
+      </mat-chip-listbox>
+    </div>
+    <ng-template #noPermissions>
+      <p class="no-permissions-text">Aucune permission spécifique n'est actuellement accordée pour ce poste/rôle.</p>
+    </ng-template>
+  </mat-card-content>
+
+  <!-- Optionnel: Bouton pour éditer le profil -->
+  <!-- <mat-card-actions align="end">
+      <button mat-stroked-button color="primary" (click)="editProfile()">
+        <mat-icon>edit</mat-icon> Modifier le Profil
+      </button>
+    </mat-card-actions> -->
+  </mat-card>
+</div>
+
+<ng-template #loadingProfile>
+  <div class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Chargement du profil...</p>
+  </div>
+</ng-template>

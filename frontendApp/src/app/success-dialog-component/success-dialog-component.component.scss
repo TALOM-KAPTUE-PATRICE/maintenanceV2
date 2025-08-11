@@ -1,0 +1,88 @@
+// Variables (vous pouvez les définir globalement ou les importer si vous avez un fichier de thème)
+$success-color: #4CAF50; // Vert pour le succès
+$primary-color-dialog: #605DFF; // Votre couleur primaire
+$text-color-dialog: #333;
+$dialog-background: #ffffff;
+
+.success-dialog-container {
+  padding: 0; // Le padding sera géré par les sections internes de mat-dialog
+  overflow: hidden; // Pour que les coins arrondis s'appliquent bien partout
+}
+
+.success-dialog-title {
+  background-color: $primary-color-dialog;
+  color: white;
+  padding: 15px 24px;
+  margin: 0; // Retirer les marges par défaut de mat-dialog-title
+  display: flex;
+  align-items: center;
+  font-size: 1.25em; // Taille de police du titre
+
+  .title-icon {
+    margin-right: 10px;
+    font-size: 28px; // Taille de l'icône du titre
+    height: 28px;
+    width: 28px;
+    vertical-align: middle;
+  }
+}
+
+.success-dialog-content {
+  padding: 25px 30px; // Plus de padding interne
+  text-align: center; // Centrer le contenu
+
+  .icon-container {
+    margin-bottom: 20px;
+  }
+
+  .success-icon {
+    font-size: 72px; // Grande icône
+    width: 72px;
+    height: 72px;
+    color: $success-color; // Couleur verte
+    animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; // Animation d'apparition
+  }
+
+  .message-text {
+    font-size: 1.1em; // Taille de police du message
+    color: $text-color-dialog;
+    line-height: 1.6;
+    margin-top: 0;
+  }
+}
+
+// Animation pour l'icône
+@keyframes popIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-dialog-actions {
+  padding: 8px 24px 16px 24px; // Ajuster le padding des actions
+  margin: 0; // Retirer les marges par défaut
+  display: flex;
+  justify-content: flex-end; // Aligner le bouton OK à droite (standard)
+  border-top: 1px solid #eee; // Séparateur léger
+
+  button[mat-flat-button] {
+    min-width: 100px; // Largeur minimale pour le bouton OK
+  }
+}
+
+// Optionnel: style pour l'info de fermeture auto
+.auto-close-info {
+  font-size: 0.8em;
+  color: #777;
+  margin: 0 auto 0 0; // Aligner à gauche si le bouton OK est à droite
+  align-self: center;
+}

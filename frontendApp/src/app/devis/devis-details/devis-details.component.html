@@ -1,0 +1,39 @@
+<div class="details-header" [class.dark-theme]="themeService.isDark()">
+    <h2 mat-dialog-title>Détails du Devis : {{ data.id }}</h2>
+    <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
+</div>
+
+<mat-dialog-content class="mat-typography">
+    <div class="details-grid">
+        <div class="detail-item">
+            <span class="label">Statut</span>
+            <span class="value badge" [ngClass]="'status-devis-' + data.statut.toLowerCase()">{{ data.statut | titlecase }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="label">Client</span>
+            <span class="value">{{ data.client || 'N/A' }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="label">Créé le</span>
+            <span class="value">{{ data.dateCreation | date:'dd MMMM yyyy' }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="label">Valide jusqu'au</span>
+            <span class="value">{{ data.dateValidite | date:'dd MMMM yyyy' }}</span>
+        </div>
+    </div>
+    
+    <mat-divider class="my-3"></mat-divider>
+
+    <div class="detail-item full-width">
+        <span class="label">Description / Objet</span>
+        <p class="value description">{{ data.description }}</p>
+    </div>
+    
+    <!-- Vous pourrez ajouter la liste des articles ici plus tard -->
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="close()">Fermer</button>
+  <button mat-flat-button color="primary">Imprimer</button>
+</mat-dialog-actions>

@@ -1,0 +1,53 @@
+<mat-card class="projects-progress-card mb-25 border-radius d-block bg-white border-0 shadow-none">
+    <mat-card-header>
+        <mat-card-title>
+            <h5 class="mb-0">
+                Projects Progress
+            </h5>
+        </mat-card-title>
+        <mat-card-subtitle>
+            <button mat-button [matMenuTriggerFor]="cardHeaderMenu" class="card-header-menu without-border d-inline-block border-radius">
+                {{ selectedTimeframe }}
+            </button>
+            <mat-menu #cardHeaderMenu="matMenu" class="card-header-menu" xPosition="before">
+                <ul class="p-0 mt-0 mb-0 list-unstyled">
+                    <li>
+                        <button mat-menu-item (click)="onTimeframeChange('Last 2 Months')">
+                            Last 2 Months
+                        </button>
+                    </li>
+                    <li>
+                        <button mat-menu-item (click)="onTimeframeChange('Last 4 Months')">
+                            Last 4 Months
+                        </button>
+                    </li>
+                    <li>
+                        <button mat-menu-item (click)="onTimeframeChange('Last 6 Months')">
+                            Last 6 Months
+                        </button>
+                    </li>
+                    <li>
+                        <button mat-menu-item (click)="onTimeframeChange('Last 8 Months')">
+                            Last 8 Months
+                        </button>
+                    </li>
+                    <li>
+                        <button mat-menu-item (click)="onTimeframeChange('Last 10 Months')">
+                            Last 10 Months
+                        </button>
+                    </li>
+                    <li>
+                        <button mat-menu-item (click)="onTimeframeChange('Last 12 Months')">
+                            Last 12 Months
+                        </button>
+                    </li>
+                </ul>
+            </mat-menu>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="chart">
+            <div id="pm_projects_progress_chart"></div>
+        </div>
+    </mat-card-content>
+</mat-card>

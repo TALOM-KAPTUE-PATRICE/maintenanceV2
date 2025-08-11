@@ -1,0 +1,52 @@
+<mat-card
+    class="projects-overview-card mb-25 border-radius d-block bg-white border-0 shadow-none"
+    [class.component-rtl-enabled]="themeService.isRTLEnabled()">
+    <mat-card-header>
+        <mat-card-title><h5 class="mb-0">Vue d'Ensemble des Projets</h5></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div *ngIf="isLoading" class="kpi-loading">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+        <div *ngIf="!isLoading" class="row">
+            <!-- KPI 3 -->
+            <div class="col-sm-6">
+                <div class="box bg-success-50">
+                    <div class="icon text-success"><mat-icon>thumb_up</mat-icon></div>
+                    <div>
+                        <span class="d-block">Devis Validés par Client</span>
+                        <h5 class="mb-0">{{ validatedDevisCount }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="box bg-danger-50">
+                    <div class="icon text-danger"><mat-icon>thumb_down</mat-icon></div>
+                    <div>
+                        <span class="d-block">Devis Non Validés</span>
+                        <h5 class="mb-0">{{ rejectedDevisCount }}</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- KPI 4 -->
+            <div class="col-sm-6">
+                <div class="box bg-primary-50">
+                    <div class="icon text-primary"><mat-icon>assignment_turned_in</mat-icon></div>
+                    <div>
+                        <span class="d-block">Projets avec BC Client</span>
+                        <h5 class="mb-0">{{ projectsWithPO }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="box bg-danger-50">
+                    <div class="icon text-warn"><mat-icon>assignment_late</mat-icon></div>
+                    <div>
+                        <span class="d-block">Projets sans BC Client</span>
+                        <h5 class="mb-0">{{ projectsWithoutPO }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

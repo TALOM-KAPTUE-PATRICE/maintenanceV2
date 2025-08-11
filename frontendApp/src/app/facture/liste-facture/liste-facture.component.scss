@@ -1,0 +1,229 @@
+// On peut s'inspirer du style du module Ticket pour la cohérence
+:host {
+    --primary-color: #3f51b5;
+    --text-color: #333;
+    --border-color: #e0e0e0;
+    --bg-color: #fff;
+    --hover-bg-color: #f5f5f5;
+}
+
+:host-context(.dark-theme) {
+    --primary-color: #7986cb;
+    --text-color: #e0e0e0;
+    --border-color: #424242;
+    --bg-color: #303030;
+    --hover-bg-color: #424242;
+}
+
+mat-card {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    overflow: hidden;
+}
+
+mat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    th.mat-header-cell, td.mat-cell {
+        border-bottom-color: var(--border-color);
+        white-space: nowrap;
+    }
+}
+
+
+// Formulaire popup
+.add-new-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+    &.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .popup-dialog {
+        width: 90%;
+        max-width: 700px;
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+    }
+
+    &.active .popup-dialog {
+        transform: scale(1);
+    }
+    
+    mat-card-header {
+        position: relative;
+        .close-btn {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+        }
+    }
+}
+
+.objet-cell {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+// style du pop-up d'affichage du ticket
+.ticket-details-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+
+  &.active {
+    display: flex;
+  }
+
+  .popup-dialog {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+  }
+}
+
+/* Ajout pour le chargement */
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px; /* Ajuster pour ne pas couvrir le paginateur */
+  right: 0;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Badges de statut */
+.badge {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 12px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+
+
+
+// Palette de couleurs spécifique pour les statuts de facture
+.badge.status-facture-brouillon { background-color: #e0e0e0; color: #212529; }
+.badge.status-facture-emise     { background-color: #e3f2fd; color: #0d6efd; }
+.badge.status-facture-payee     { background-color: #e8f5e9; color: #198754; }
+.badge.status-facture-en_retard { background-color: #fff8e1; color: #ffab00; }
+.badge.status-facture-annulee   { background-color: #fbe9e7; color: #dc3545; }
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {}
+
+  
+  /* Min width 576px to Max width 767px */
+  @media only screen and (min-width : 576px) and (max-width : 767px) {
+  
+    ::ng-deep {
+        .dt-to-do-list-card {
+            .mat-mdc-card-content {
+                .mat-mdc-button {
+                    &.add-new-task-btn {
+                        margin-right: 20px;
+                    }
+                }
+            }
+            &.component-rtl-enabled {
+                .mat-mdc-card-content {
+                    .mat-mdc-table {
+                        &.mdc-data-table__table {
+                            .mat-mdc-header-row {
+                                .mat-mdc-header-cell {
+                                    &:first-child {
+                                        padding: {
+                                            right: 20px !important;
+                                        };
+                                    }
+                                    &:nth-child(2) {
+                                        padding: {
+                                            left: 20px !important;
+                                        };
+                                    }
+                                }
+                            }
+                            .mdc-data-table__content {
+                                .mat-mdc-row {
+                                    .mat-mdc-cell {
+                                        &:first-child {
+                                            padding: {
+                                                right: 20px !important;
+                                            };
+                                        }
+                                        &:nth-child(2) {
+                                            padding: {
+                                                left: 20px !important;
+                                            };
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .mat-mdc-button {
+                        &.add-new-task-btn {
+                            margin: {
+                                left: 20px;
+                            };
+                        }
+                    }
+                }
+            }
+        }
+    }
+  
+  }
+  

@@ -1,0 +1,938 @@
+@use "sass:color";
+
+$primary-color: #605DFF; // Bleu/violet
+$accent-color: #FF4023; // Orange vif
+$text-color: #333;
+$background-color: #f0f2f5; // Gris clair pour le fond
+$card-background: #ffffff;
+
+
+.welcome-container {
+  // Variables de couleurs personnalisées
+  $primary-color: #605DFF; // Bleu/violet
+  $text-color: #333;
+  $background-color: #f0f2f5; // Gris clair pour le fond
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $background-color;
+  font-family: 'Roboto', sans-serif;
+  color: $text-color;
+
+  .app-header {
+    background-color: $primary-color;
+    color: white;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed; // Rendre le header fixe
+    top: 0; // Fixé en haut
+    width: 100%; // Prend toute la largeur
+    z-index: 1000;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .app-logo {
+    height: 50px;
+    width: auto;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 500;
+  }
+
+  .login-button {
+    padding: 8px 20px;
+    font-size: 1em;
+    font-weight: 500;
+    border-radius: 25px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease-in-out;
+    animation: pulse 2s infinite ease-in-out; // Animation continue
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.hero-full-width-carousel {
+  position: relative;
+  width: 100vw; // Prend toute la largeur du viewport
+  height: 95vh; // Grande hauteur, ajustez si nécessaire
+  overflow: hidden;
+  margin-top: 82px; // Évite que le contenu ne soit sous le header fixe (adaptez à la hauteur réelle du header)
+  background-color: #222; // Fond sombre si l'image ne charge pas
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); // Légère ombre
+
+  .hero-slides-container {
+    position: relative; // Pour positionner les slides à l'intérieur
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover; // L'image couvre tout l'espace
+    background-position: center; // Centrer l'image
+    opacity: 0; // Invisible par défaut
+    transition: opacity 1.2s ease-in-out; // Transition de fondu
+    z-index: 1; // Par défaut, en arrière-plan
+
+    &.active {
+      opacity: 1; // Visible
+      z-index: 2; // Passe au-dessus des autres slides
+    }
+  }
+
+  .hero-slide-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); // Overlay sombre pour rendre le texte lisible
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+  }
+
+  .hero-slide-content {
+    max-width: 800px;
+    padding: 20px;
+
+    h2 {
+      font-size: 3.5em; // Grand titre
+      margin-bottom: 15px;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+      animation: fadeInFromTop 1s ease-out; // Animation pour le titre
+    }
+
+    p {
+      font-size: 1.5em; // Grande description
+      line-height: 1.5;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+      animation: fadeInFromBottom 1s ease-out; // Animation pour la description
+    }
+  }
+
+
+  .hero-carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.2); // Boutons semi-transparents
+    color: white;
+    border-radius: 50%;
+    width: 60px; // Plus grands boutons
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3; // Au-dessus des slides
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-50%) scale(1.1); // Effet de zoom au survol
+    }
+
+    &.prev {
+      left: 20px;
+    }
+
+    &.next {
+      right: 20px;
+    }
+
+    mat-icon {
+      font-size: 40px; // Grande icône
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .hero-carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px; // Plus d'espace
+
+    .indicator {
+      width: 15px; // Plus grands indicateurs
+      height: 15px;
+      background-color: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      border: 2px solid rgba(0, 0, 0, 0.2); // Bordure pour visibilite
+
+      &.active {
+        background-color: $accent-color; // Couleur accent pour l'actif
+        transform: scale(1.3); // Plus grand quand actif
+        border-color: $accent-color;
+      }
+
+      &:hover:not(.active) {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+
+// Animation Keyframes pour le bouton de connexion
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  }
+}
+
+// Keyframes pour les animations de texte du hero carousel
+@keyframes fadeInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column; // Change en colonne pour empiler les sections 
+  align-items: center; // Centre les sections horizontalement
+  padding: 30px 15px;
+}
+
+.hero-section {
+  background-color: $card-background;
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+  max-width: 900px;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px; // Marge pour la section suivante
+
+  h2 {
+    font-size: 2.5em;
+    color: $primary-color;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+}
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  height: 400px;
+  margin: 0 auto 30px auto;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  background-color: #eee;
+  display: flex;
+
+  .slides-container {
+    display: flex;
+    width: 100%;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    .slide {
+      flex: 0 0 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+
+      .solution-image {
+        // Nouveau style pour les images de solution
+        max-width: 90%;
+        max-height: 250px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-out; // Animation au survol sur l'image
+
+        &:hover {
+          transform: scale(1.03);
+        }
+      }
+
+      .slide-content {
+        h3 {
+          font-size: 1.6em;
+          color: $primary-color;
+          margin-bottom: 10px;
+        }
+
+        p {
+          font-size: 1em;
+          color: #666;
+          max-width: 500px;
+        }
+      }
+    }
+  }
+
+  .carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    &.prev {
+      left: 10px;
+    }
+
+    &.next {
+      right: 10px;
+    }
+
+    mat-icon {
+      font-size: 30px;
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+
+  .indicator {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+
+    &.active {
+      background-color: $accent-color;
+      transform: scale(1.2);
+      border-color: $accent-color;
+    }
+
+    &:hover:not(.active) {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+  }
+}
+
+.call-to-action {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+
+  button {
+    padding: 10px 25px;
+    font-size: 1.1em;
+  }
+}
+
+.app-footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+  font-size: 0.9em;
+}
+
+/* --- Styles et Animations des Nouvelles Sections --- */
+
+// Styles généraux pour toutes les sections animées
+.value-prop-section,
+.stats-section,
+.testimonials-section,
+.security-support-section,
+.roadmap-section {
+  background-color: $card-background;
+  border-radius: 8px;
+  padding: 30px;
+  margin: 30px auto;
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+  h3 {
+    font-size: 2em;
+    color: $primary-color;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 1em;
+    color: #555;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-illustration {
+    // Styles pour les images d'illustration dans les sections
+    height: 80px;
+    width: 80px;
+    width: auto;
+    margin-bottom: 20px;
+  }
+}
+
+// Animations de base au défilement (invisible par défaut, devient visible avec .is-visible)
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+// Délais pour les animations séquentielles
+@for $i from 1 through 12 {
+  .delay-#{$i} {
+    transition-delay: #{$i * 0.1}s; // 0.1s de délai par "étape"
+  }
+}
+
+// Styles specifiques des sections
+
+.stats-section {
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+
+    .stat-item {
+      background-color: color.adjust($background-color, $lightness: 3%);
+      padding: 20px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease; // Pour le hover 
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        margin-bottom: 10px;
+      }
+
+      h4 {
+        font-size: 2.2em;
+        color: $accent-color;
+        margin: 0;
+        font-weight: 700;
+      }
+
+      p {
+        font-size: 0.9em;
+        color: #666;
+        margin: 5px 0 0 0;
+      }
+    }
+  }
+}
+
+.testimonials-section {
+  .testimonials-container {
+    display: flex;
+    flex-wrap: wrap; // Permet aux cartes de passer à la ligne
+    justify-content: center;
+    gap: 25px;
+    margin-top: 30px;
+  }
+
+  .testimonial-card {
+    background-color: color.adjust($background-color, $lightness: 3%);
+    padding: 25px;
+    border-radius: 8px;
+    text-align: left;
+    max-width: 400px; // Limite la largeur des témoignages
+    flex: 1 1 45%; // Prend 45% de la largeur, s'adapte 
+    min-width: 280px; // Largeur minimale pour éviter l'écrasement
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid $accent-color;
+
+    .testimonial-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      float: left; // Fait flotter l'avatar à gauche du texte
+      margin-right: 15px;
+      margin-bottom: 10px; // Espacement si le texte débute en dessous
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      font-style: italic;
+      margin-bottom: 15px;
+      font-size: 1.05em;
+      color: #444;
+      overflow: hidden; // S'assure que le texte ne déborde pas de l'avatar
+    }
+
+    .testimonial-author {
+      display: block;
+      text-align: right;
+      font-weight: 500;
+      color: $primary-color;
+      clear: both; // Assure que le nom est en dessous de l'avatar
+    }
+  }
+}
+
+.security-support-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 30px;
+
+  .security-info,
+  .support-info {
+    flex: 1 1 45%;
+    min-width: 300px;
+    text-align: center;
+    padding: 25px;
+    background-color: color.adjust($background-color, $lightness: 3%);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; // Pour le hover 
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    mat-icon {
+      font-size: 60px;
+      width: 60px;
+      height: 60px;
+      margin-bottom: 15px;
+    }
+
+    h3 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: $primary-color;
+    }
+
+    p {
+      font-size: 0.95em;
+      color: #666;
+      margin-top: 0;
+      max-width: none;
+    }
+
+    a {
+      color: $accent-color;
+      text-decoration: none;
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 15px;
+    gap: 15px;
+
+    .header-left {
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    h1 {
+      font-size: 1.5em;
+    }
+
+    .login-button {
+      font-size: 0.9em;
+      padding: 6px 15px;
+    }
+  }
+
+  .hero-section {
+    padding: 25px;
+
+    h2 {
+      font-size: 2em;
+    }
+
+    p {
+      font-size: 0.95em;
+    }
+  }
+
+  .carousel-wrapper {
+    height: 350px;
+  }
+
+  .carousel-nav {
+    width: 40px;
+    height: 40px;
+
+    mat-icon {
+      font-size: 24px;
+    }
+  }
+
+  .solution-image {
+    max-height: 200px;
+  }
+
+  .slide-content {
+    h3 {
+      font-size: 1.4em;
+    }
+
+    p {
+      font-size: 0.9em;
+    }
+  }
+
+  .call-to-action {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  // Responsive pour les nouvelles sections
+  .value-prop-section,
+  .stats-section,
+  .testimonials-section,
+  .security-support-section,
+  .roadmap-section {
+    padding: 20px;
+    margin: 20px auto;
+  }
+
+  .value-prop-section h3,
+  .stats-section h3,
+  .testimonials-section h3,
+  .security-support-section h3,
+  .roadmap-section h3 {
+    font-size: 1.8em;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr; // Une seule colonne sur mobile
+  }
+
+  .testimonials-container {
+    flex-direction: column; // Empile les témoignages
+    align-items: center;
+  }
+
+  .testimonial-card {
+    min-width: unset; // Annule le min-width 
+    flex: 1 1 100%; // Prend toute la largeur disponible
+  }
+
+  .security-support-section {
+    flex-direction: column; // Empile les blocs sécurité et support
+    gap: 20px;
+  }
+
+  .security-info,
+  .support-info {
+    min-width: unset;
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    .app-logo {
+      height: 40px;
+    }
+
+    h1 {
+      font-size: 1.3em;
+    }
+  }
+
+  .hero-section {
+    padding: 20px;
+
+    h2 {
+      font-size: 1.8em;
+    }
+  }
+
+  .carousel-wrapper {
+    height: 300px;
+  }
+
+  .carousel-nav {
+    width: 35px;
+    height: 35px;
+
+    mat-icon {
+      font-size: 20px;
+    }
+  }
+
+  .solution-image {
+    max-height: 150px;
+  }
+
+  .slide-content {
+    h3 {
+      font-size: 1.2em;
+    }
+
+    p {
+      font-size: 0.85em;
+    }
+  }
+
+.scroll-to-top-button {
+  position: fixed;
+  bottom: 30px; // Distance par rapport au bas
+  right: 30px;  // Distance par rapport à la droite
+  // left: auto; // Assurez-vous que 'left' n'est pas défini ou est 'auto' si 'right' est utilisé.
+
+  // AUGMENTER LE Z-INDEX pour qu'il soit au-dessus du footer
+  z-index: 1050; // Le footer a un z-index implicite ou peut en avoir un plus bas. Mettez une valeur élevée.
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.9);
+  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: scrollTopPulse 2.5s infinite ease-in-out;
+  animation-play-state: paused;
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    animation-play-state: running;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  mat-icon {
+    font-size: 28px; // Légèrement réduit pour un FAB standard
+    width: 28px;
+    height: 28px;
+  }
+}
+
+// Keyframes pour scrollTopPulse (inchangée)
+@keyframes scrollTopPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Styles pour le Footer
+.app-footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto; // Pousse le footer vers le bas si le contenu est court
+  font-size: 0.9em;
+  position: relative; // Nécessaire si vous voulez contrôler son z-index par rapport aux éléments fixed
+  z-index: 900; // Un z-index inférieur à celui du bouton scroll-to-top
+}
+
+
+// ... (le reste de votre code SCSS existant) ...
+
+/* --- Responsive Design --- */
+// ... (vos media queries existantes) ...
+
+@media (max-width: 480px) {
+  // ... (vos styles existants pour .app-header, .hero-section, etc.) ...
+
+  // Ajustement pour le bouton scroll-to-top sur petits écrans si besoin
+  .scroll-to-top-button {
+    bottom: 20px; // Peut-être un peu moins de marge en bas sur mobile
+    right: 20px;  // Peut-être un peu moins de marge à droite sur mobile
+    // Si vous utilisez mat-mini-fab sur mobile, ajustez la taille de l'icône
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  // ... (le reste de vos styles responsive existants) ...
+}
+  .carousel-indicators .indicator {
+    width: 10px;
+    height: 10px;
+  }
+
+  // Responsive pour les nouvelles sections
+  .value-prop-section h3,
+  .stats-section h3,
+  .testimonials-section h3,
+  .security-support-section h3,
+  .roadmap-section h3 {
+    font-size: 1.5em;
+  }
+
+  .stat-item {
+    h4 {
+      font-size: 1.8em;
+    }
+
+    mat-icon {
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .testimonial-card .testimonial-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .testimonial-card p {
+    font-size: 0.95em;
+  }
+}

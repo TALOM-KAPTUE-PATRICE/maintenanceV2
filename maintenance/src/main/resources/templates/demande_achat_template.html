@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="'Demande d\'Achat N° ' + ${da.id}"></title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 12px; color: #333; }
+        .container { width: 100%; margin: 0 auto; }
+         img{ height: 50px; width: 50px; border-radius: 50% ;}
+        .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #605DFF; padding-bottom: 10px; }
+        .header .logo { max-width: 100px; }
+        .header .company-info { text-align: right; }
+        .header .company-info h1 { margin: 0; color: #605DFF; font-size: 18px; }
+        .header .company-info p { margin: 2px 0; font-size: 10px; color: #555; }
+        .title { text-align: center; margin: 30px 0; }
+        .title h2 { font-size: 24px; text-transform: uppercase; letter-spacing: 2px; }
+        .info-table { width: 100%; margin-bottom: 25px; border-collapse: collapse; }
+        .info-table td { padding: 8px; font-size: 12px; }
+        .info-table .label { font-weight: bold; width: 25%; text-align: right; padding-right: 15px; color: #666; }
+        .section-title { font-size: 16px; font-weight: bold; color: #605DFF; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px; margin-bottom: 15px; }
+        .articles-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .articles-table th, .articles-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        .articles-table th { background-color: #f2f2f2; font-weight: bold; }
+        .articles-table .text-right { text-align: right; }
+        .articles-table tr:nth-child(even) { background-color: #f9f9f9; }
+        .total-section { float: right; width: 40%; margin-top: 20px; }
+        .total-table { width: 100%; }
+        .total-table td { padding: 8px; }
+        .total-table .label { font-weight: bold; text-align: right; }
+        .total-table .value { font-weight: bold; font-size: 14px; text-align: right; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; text-align: center; font-size: 10px; color: #aaa; }
+    </style>
+    
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div>
+            <!-- Assurez-vous que le logo est dans src/main/resources/static/images/ -->
+            <img th:src="@{images/BETANG.JPG}" alt="Logo" class="logo"/>
+        </div>
+        <div class="company-info">
+            <h1>BETANG ENGINEERING S.A.R.L</h1>
+            <p>B.P. 12345, Douala, Cameroun</p>
+            <p>Tél: (+237) 690 00 00 00</p>
+        </div>
+         
+    </div>
+
+    <div class="title">
+        <h2 th:text="'DEMANDE D\'ACHAT N° ' + ${da.id}">DEMANDE D'ACHAT N° 123</h2>
+    </div>
+
+    <div class="section-title">Informations Générales</div>
+    <table class="info-table">
+        <tr>
+            <td class="label">Date de la demande :</td>
+            <td th:text="${#temporals.format(da.dateCreation, 'dd MMMM yyyy')}">01 Janvier 2024</td>
+            <td class="label">Initiateur :</td>
+            <td th:text="${da.nomInitiateur} + ' (' + ${da.posteInitiateur} + ')'">John Doe (Technicien)</td>
+        </tr>
+        <tr>
+            <td class="label">Service Demandeur :</td>
+            <td th:text="${da.serviceDemandeur}">Service Maintenance</td>
+            <td class="label">Lieu de Livraison :</td>
+            <td th:text="${da.lieuLivraison}">Magasin Central</td>
+        </tr>
+        <tr>
+            <td class="label">Référence Ticket :</td>
+            <td th:text="'N° ' + ${da.ticketId} + ' - ' + ${da.ticketTitre}">#45 - Réparation Moteur</td>
+            <td class="label">Référence Devis :</td>
+            <td th:text="${da.devisId}">DEVIS-2024-001</td>
+        </tr>
+    </table>
+
+    <div class="section-title">Objet de la demande</div>
+    <p th:text="${da.objet}">Achat de pièces de rechange nécessaires pour la réparation du moteur principal suite à la panne du 28/12/2023.</p>
+
+    <div class="section-title">Détail des Articles</div>
+    <table class="articles-table">
+        <thead>
+        <tr>
+            <th>Désignation</th>
+            <th class="text-right">Quantité</th>
+            <th class="text-right">Prix Unitaire</th>
+            <th class="text-right">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="article : ${da.articles}">
+            <td th:text="${article.designation}">Roulement à bille SKF-6205</td>
+            <td class="text-right" th:text="${article.quantite}">2</td>
+            <td class="text-right" th:text="${#numbers.formatDecimal(article.prixUnitaire, 1, 'WHITESPACE', 2, 'COMMA')} + ' ' + ${da.devise}">15 000,00 XAF</td>
+            <td class="text-right" th:text="${#numbers.formatDecimal(article.prixTotal, 1, 'WHITESPACE', 2, 'COMMA')} + ' ' + ${da.devise}">30 000,00 XAF</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="total-section">
+        <table class="total-table">
+            <tr>
+                <td class="label">Total H.T :</td>
+                <td class="value" th:text="${#numbers.formatDecimal(da.totalHT, 1, 'WHITESPACE', 2, 'COMMA')} + ' ' + ${da.devise}">30 000,00 XAF</td>
+            </tr>
+            <!-- Vous pouvez ajouter TVA, Total TTC etc. ici -->
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

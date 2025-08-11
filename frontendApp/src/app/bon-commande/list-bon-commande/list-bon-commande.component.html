@@ -1,0 +1,176 @@
+<mat-card class="dt-to-do-list-card mb-25 border-radius d-block bg-white border-0 shadow-none"
+  [class.component-rtl-enabled]="themeService.isRTLEnabled()">
+  <mat-card-header>
+    <mat-card-title>
+      <h5 class="mb-0">Bons de Commande Fournisseurs</h5>
+    </mat-card-title>
+    <div class="d-flex align-items-center">
+      <form class="search-box position-relative me-3">
+        <i class="material-icons">search</i>
+        <input type="text" class="input-search" placeholder="Filtrer les résultats..." (keyup)="applyFilter($event)">
+      </form>
+      <button class="add-new-btn" type="button" mat-flat-button color="primary" (click)="openForm()">
+        <i class="material-icons">add</i>
+        Nouveau Bon de Commande
+      </button>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="loading-shade" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>N° Commande</th>
+          <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateCommande">
+          <th mat-header-cell *matHeaderCellDef>Date Creation</th>
+          <td mat-cell *matCellDef="let element">{{element.dateCommande | date:'dd/MM/yyyy'}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="statut">
+          <th mat-header-cell *matHeaderCellDef> Statut </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="badge" [ngClass]="'status-bcf-' + element.statut.toLowerCase()">{{ element.statut | titlecase
+              }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fournisseurEmail">
+          <th mat-header-cell *matHeaderCellDef>Fournisseur</th>
+          <td mat-cell *matCellDef="let element">{{element.fournisseurEmail}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="devisId">
+          <th mat-header-cell *matHeaderCellDef>Réf. Devis</th>
+          <td mat-cell *matCellDef="let element">{{element.devisId}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="onViewDetails(element)" matTooltip="Voir les détails">
+              <i class="material-icons">visibility</i>
+            </button>
+            <button mat-icon-button color="primary" (click)="openForm(element)" matTooltip="Modifier">
+              <i class="material-icons">edit</i>
+            </button>
+            <button mat-icon-button (click)="onPrint(element.id)" matTooltip="Imprimer le bon de commande">
+              <i class="material-icons">print</i>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDelete(element.id)" matTooltip="Supprimer">
+              <i class="material-icons">delete</i>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="5" *ngIf="!isLoading">Aucun bon de commande trouvé.</td>
+        </tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>
+
+<!-- Formulaire Popup/Overlay -->
+<div class="add-new-popup" [class.active]="isFormVisible">
+  <div class="popup-dialog">
+    <mat-card class="border-radius d-block bg-white border-0 shadow-none">
+      <mat-card-header>
+        <mat-card-title>
+          <h5 class="mb-0">{{ isEditing ? 'Modifier' : 'Ajouter' }} un Bon de Commande</h5>
+        </mat-card-title>
+        <button mat-icon-button (click)="closeForm()" class="close-btn"><i class="material-icons">close</i></button>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="bcfForm" (ngSubmit)="onSubmit()">
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Devis de référence</mat-label>
+            <mat-select formControlName="devisId" required>
+              <mat-option *ngFor="let devis of devisList" [value]="devis.id">{{ devis.id }} - {{ devis.description |
+                slice:0:40 }}...</mat-option>
+            </mat-select>
+            <mat-error *ngIf="bcfForm.get('devisId')?.hasError('required')">Le devis est obligatoire.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Fournisseur</mat-label>
+            <mat-select formControlName="fournisseurId" required>
+              <mat-option *ngFor="let fournisseur of fournisseurList" [value]="fournisseur.id">{{
+                fournisseur.nomFourniss }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="bcfForm.get('fournisseurId')?.hasError('required')">Le fournisseur est
+              obligatoire.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Adresse de Livraison</mat-label>
+            <input matInput formControlName="adresseLivraison" required>
+            <mat-error *ngIf="bcfForm.get('adresseLivraison')?.hasError('required')">L'adresse est
+              obligatoire.</mat-error>
+          </mat-form-field>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Code Projet</mat-label>
+                <input matInput formControlName="codeProjet">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Devise</mat-label>
+                <input matInput formControlName="codeDevise" required>
+                <mat-error *ngIf="bcfForm.get('codeDevise')?.hasError('required')">La devise est
+                  obligatoire.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Mode d'Expédition</mat-label>
+                <input matInput formControlName="modeExpedition">
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Mode de Paiement</mat-label>
+                <input matInput formControlName="modePaiement">
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Moyen de Paiement</mat-label>
+                <input matInput formControlName="moyenPaiement">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="btn-box text-end">
+            <button mat-stroked-button (click)="closeForm()" type="button">Annuler</button>
+            <button mat-flat-button color="primary" type="submit" [disabled]="bcfForm.invalid || isLoading">
+              <span *ngIf="!isLoading">{{ isEditing ? 'Enregistrer les modifications' : 'Créer le Bon de Commande'
+                }}</span>
+              <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="20"
+                style="display: inline-block; margin-left: 8px;"></mat-progress-spinner>
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

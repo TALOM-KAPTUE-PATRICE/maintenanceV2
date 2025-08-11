@@ -1,0 +1,6 @@
+export enum DevisStatus {
+  EN_REDACTION = 'EN_REDACTION',
+  SOUMIS = 'SOUMIS',
+  VALIDER = 'VALIDER',
+  REFUSER = 'REFUSER'
+}

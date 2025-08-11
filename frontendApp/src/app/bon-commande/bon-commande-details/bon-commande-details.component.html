@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Détails du Bon de Commande</h2>
+<mat-dialog-content>
+  <p><strong>ID:</strong> {{ data.id }}</p>
+  <p><strong>Date de Commande:</strong> {{ data.dateCommande | date }}</p>
+  <p><strong>Adresse Livraison:</strong> {{ data.adresseLivraison }}</p>
+  <p><strong>Nom Fournisseur:</strong> {{ data.fournisseurNom }}</p>
+  <p><strong>Devis ID:</strong> {{ data.devisId }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="close()">Fermer</button>
+</mat-dialog-actions>

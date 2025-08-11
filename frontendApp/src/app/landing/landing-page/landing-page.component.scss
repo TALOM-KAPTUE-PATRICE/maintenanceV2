@@ -1,0 +1,302 @@
+@use 'sass:color';
+
+:host {
+    display: block;
+    background-color: #ffffff;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+}
+
+// Variables
+$primary-color: #3f51b5; // Bleu Material
+$secondary-color: #212529; // Noir doux
+$text-color: #5a6a85;
+$bg-light: #f8f9fa;
+
+// Mixin pour les media queries
+@mixin for-tablet-up {
+    @media (min-width: 768px) { @content; }
+}
+@mixin for-desktop-up {
+    @media (min-width: 992px) { @content; }
+}
+
+// --- Header ---
+.landing-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0 20px;
+    transition: all 0.3s ease;
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        height: 70px;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: $secondary-color;
+        img { height: 40px; margin-right: 10px; }
+    }
+
+    nav {
+        a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: $text-color;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            &:hover { color: $primary-color; }
+        }
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        .login-btn { 
+            color: $primary-color;
+            font-weight: 500; 
+            cursor: pointer;
+        }
+    }
+}
+
+// --- Sections communes ---
+.section-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 80px 20px;
+}
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: $secondary-color;
+}
+.section-subtitle {
+    font-size: 1.2rem;
+    text-align: center;
+    color: $text-color;
+    max-width: 600px;
+    margin: 0 auto 50px auto;
+}
+
+// --- Hero Section ---
+.hero-section {
+    padding-top: 80px;
+    padding-bottom: 40px;
+    text-align: center;
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 800;
+        line-height: 1.2;
+        max-width: 800px;
+        margin: 0 auto;
+        background: linear-gradient(90deg, $primary-color, $secondary-color);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+        font-size: 1.25rem;
+        margin: 20px auto 30px auto;
+        max-width: 650px;
+        color: $text-color;
+    }
+    .hero-cta {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+    }
+    .hero-image-container {
+        margin-top: 50px;
+        .hero-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+    }
+}
+
+// --- Features Section ---
+.features-section { background-color: $bg-light; }
+
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    @include for-tablet-up { grid-template-columns: repeat(2, 1fr); }
+    @include for-desktop-up { grid-template-columns: repeat(3, 1fr); }
+}
+
+.feature-card {
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-radius: 12px;
+    .feature-icon-container {
+        width: 60px; height: 60px;
+        background-color: color.adjust($primary-color, $lightness: 45%);
+        border-radius: 50%;
+        margin: 0 auto 15px auto;
+        mat-icon { font-size: 30px; line-height: 60px; color: $primary-color; }
+    }
+}
+
+// --- Testimonials Section ---
+.testimonials-grid {
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    @include for-tablet-up { grid-template-columns: repeat(2, 1fr); }
+    @include for-desktop-up { grid-template-columns: repeat(3, 1fr); }
+ }
+
+
+
+// --- Pricing Section ---
+.pricing-section { background-color: $bg-light; }
+
+
+// --- FAQ Section ---
+.faq-section {
+    .mat-accordion { max-width: 800px; margin: 0 auto; }
+}
+
+// --- Footer ---
+.landing-footer {
+    background-color: $secondary-color;
+    color: #a0a0a0;
+    padding: 40px 20px;
+
+}
+
+// ... (tous vos styles existants)
+
+// --- CORRECTION ICONES FEATURES ---
+.feature-card .feature-icon-container {
+    // ... styles existants ...
+    display: flex; // Ajout pour centrer
+    align-items: center; // Aligner verticalement
+    justify-content: center; // Aligner horizontalement
+    
+    mat-icon { 
+        line-height: 1; // Assurer que l'icône n'a pas de hauteur de ligne parasite
+    }
+}
+
+// --- STYLE CARROUSEL HERO ---
+.hero-image-container {
+    // ...
+    // Styles pour les flèches du carrousel
+    ::ng-deep .owl-nav {
+        button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.7) !important;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: $secondary-color !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+            &:hover {
+                background-color: #fff !important;
+                color: $primary-color !important;
+            }
+            &.owl-prev { left: 15px; }
+            &.owl-next { right: 15px; }
+        }
+    }
+    // Styles pour les points de navigation
+    ::ng-deep .owl-dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+// --- STYLE CARROUSEL TEMOIGNAGES ---
+.testimonials-section {
+    .testimonial-card { 
+        margin: 0 15px; /* Ajoute un espace entre les cartes dans le carrousel */
+        // ... (styles de la carte)
+    }
+    // Styles pour les points de navigation
+    ::ng-deep .owl-dots {
+        margin-top: 30px !important;
+        .owl-dot.active span {
+            background-color: $primary-color !important;
+        }
+    }
+}
+
+// --- STYLE PRICING ---
+.pricing-card .saving {
+    color: $text-color;
+    font-size: 0.9rem;
+    height: 1.2rem; // Pour garder l'alignement même si vide
+    margin-bottom: 20px;
+}
+
+// --- AMÉLIORATION FOOTER ---
+.landing-footer {
+    // ... styles existants
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .footer-top {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 30px;
+        padding-bottom: 40px;
+        .logo { 
+            flex-basis: 100%;
+            @include for-tablet-up { flex-basis: 40%; }
+        }
+        .footer-links, .footer-social {
+            h4 { color: #fff; margin-bottom: 15px; }
+            a { 
+                display: block;
+                color: #a0a0a0; 
+                margin-bottom: 8px;
+                text-decoration: none;
+                &:hover { color: #fff; }
+            }
+        }
+        .footer-social {
+            a { display: inline-block; margin-right: 15px; font-size: 1.5rem; }
+        }
+    }
+    mat-divider { border-color: rgba(255, 255, 255, 0.1); }
+    .footer-bottom {
+        padding-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        font-size: 0.9rem;
+        nav a { margin-left: 20px; }
+    }
+}

@@ -1,0 +1,139 @@
+// On peut s'inspirer du style du module Ticket pour la cohérence
+:host {
+    --primary-color: #3f51b5;
+    --text-color: #333;
+    --border-color: #e0e0e0;
+    --bg-color: #fff;
+    --hover-bg-color: #f5f5f5;
+}
+
+:host-context(.dark-theme) {
+    --primary-color: #7986cb;
+    --text-color: #e0e0e0;
+    --border-color: #424242;
+    --bg-color: #303030;
+    --hover-bg-color: #424242;
+}
+
+mat-card {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    overflow: hidden;
+}
+
+mat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    th.mat-header-cell, td.mat-cell {
+        border-bottom-color: var(--border-color);
+        white-space: nowrap;
+    }
+}
+
+
+// Formulaire popup
+.add-new-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+    &.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .popup-dialog {
+        width: 90%;
+        max-width: 700px;
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+    }
+
+    &.active .popup-dialog {
+        transform: scale(1);
+    }
+    
+    mat-card-header {
+        position: relative;
+        .close-btn {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+        }
+    }
+}
+
+.objet-cell {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* Ajout pour le chargement */
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px; /* Ajuster pour ne pas couvrir le paginateur */
+  right: 0;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Badges de statut */
+.badge {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 12px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.status-nouveau { background-color: #0d6efd; } // Bleu
+.status-en_cours { background-color: #ffc107; color: #000;} // Jaune
+.status-en_arret { background-color: #6c757d; } // Gris
+.status-termine { background-color: #198754; } // Vert
+.status-cloture { background-color: #212529; } // Noir
+
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {}

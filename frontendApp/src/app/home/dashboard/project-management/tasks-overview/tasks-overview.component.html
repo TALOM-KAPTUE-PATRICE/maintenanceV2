@@ -1,0 +1,22 @@
+<mat-card class="mb-25 border-radius d-block bg-white border-0 shadow-none">
+    <mat-card-header>
+        <mat-card-title>
+            <h5 class="mb-0">Statut des Demandes d'Achat</h5>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div *ngIf="isLoading" class="chart-loading-shade">
+            <mat-spinner diameter="40"></mat-spinner>
+        </div>
+        <div *ngIf="!isLoading" class="chart">
+            <apx-chart
+                [series]="chartOptions.series!"
+                [chart]="chartOptions.chart!"
+                [labels]="chartOptions.labels!"
+                [plotOptions]="chartOptions.plotOptions!"
+                [colors]="chartOptions.colors!"
+                [dataLabels]="chartOptions.dataLabels!"
+            ></apx-chart>
+        </div>
+    </mat-card-content>
+</mat-card>

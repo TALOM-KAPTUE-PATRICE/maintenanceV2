@@ -1,0 +1,172 @@
+
+    <mat-card class="dt-card mb-25 border-radius d-block bg-white border-0 shadow-none" [class.component-rtl-enabled]="themeService.isRTLEnabled()">
+        <mat-card-header>
+            <mat-card-title>Gestion des Utilisateurs</mat-card-title>
+            <div class="d-flex align-items-center">
+                <form class="search-box me-3">
+                    <mat-icon>search</mat-icon>
+                    <input type="text" (keyup)="applyFilter($event)" placeholder="Rechercher...">
+                </form>
+                <button mat-flat-button color="primary" (click)="openForm()">
+                    <mat-icon>add</mat-icon> Nouvel Utilisateur
+                </button>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <div *ngIf="isLoading" class="loading-shade">
+                <mat-spinner></mat-spinner>
+            </div>
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource">
+
+                    <ng-container matColumnDef="image">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let user">
+                            <img [src]="getUserImageUrl(user.imagePath)" alt="Avatar" class="avatar-img">
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nom">
+                        <th mat-header-cell *matHeaderCellDef>Nom</th>
+                        <td mat-cell *matCellDef="let user">{{user.nom}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef>Email</th>
+                        <td mat-cell *matCellDef="let user">{{user.email}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="poste">
+                        <th mat-header-cell *matHeaderCellDef>Poste</th>
+                        <td mat-cell *matCellDef="let user">{{user.poste}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="role">
+                        <th mat-header-cell *matHeaderCellDef>Rôle</th>
+                        <td mat-cell *matCellDef="let user">
+                            <span class="badge" [ngClass]="'role-' + user.role.toLowerCase()">{{user.role}}</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="text-end">Actions</th>
+                        <td mat-cell *matCellDef="let user" class="text-end">
+                            <button mat-icon-button color="primary" (click)="openForm(user)" matTooltip="Modifier">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn" (click)="onDelete(user.id)" matTooltip="Supprimer">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr *matNoDataRow>
+                        <td colspan="6">Aucun utilisateur trouvé.</td>
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Formulaire Popup -->
+    <div class="add-new-popup" [class.active]="isFormVisible">
+        <div class="popup-dialog">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>{{ isEditing ? 'Modifier' : 'Créer' }} un Utilisateur</mat-card-title>
+                    <button mat-icon-button (click)="closeForm()" class="close-btn"><mat-icon>close</mat-icon></button>
+                </mat-card-header>
+                <mat-card-content>
+                    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+                        <!-- Section Image de Profil -->
+                        <div class="text-center mb-3 profile-image-section">
+                            <img [src]="imagePreview" alt="Aperçu" class="image-preview" (click)="imageInput.click()">
+                            <!-- ▼▼▼ LOGIQUE D'AFFICHAGE CORRIGÉE ▼▼▼ -->
+                            <button *ngIf="isEditing" type="button" mat-stroked-button
+                                (click)="imageInput.click()">Changer l'image</button>
+                            <button *ngIf="!isEditing" type="button" mat-stroked-button (click)="imageInput.click()">
+                                {{ selectedFile ? 'Image sélectionnée' : 'Choisir une image' }}
+                            </button>
+                            <input hidden type="file" #imageInput (change)="onFileSelected($event)" accept="image/*">
+                        </div>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Nom complet</mat-label>
+                            <input matInput formControlName="nom">
+                            <mat-error *ngIf="userForm.get('nom')?.hasError('required')">Le nom est
+                                obligatoire.</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email" type="email">
+                            <mat-error *ngIf="userForm.get('email')?.hasError('required')">L'email est
+                                obligatoire.</mat-error>
+                            <mat-error *ngIf="userForm.get('email')?.hasError('email')">Format d'email
+                                invalide.</mat-error>
+                        </mat-form-field>
+
+                        <!-- Champ Numéro de Téléphone avec format -->
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Numéro de Téléphone</mat-label>
+                            <span matPrefix>+237 </span>
+                            <input matInput formControlName="numeroTelephone" placeholder="Ex: 690123456">
+                            <mat-error *ngIf="userForm.get('numeroTelephone')?.hasError('required')">Le numéro est
+                                obligatoire.</mat-error>
+                            <mat-error *ngIf="userForm.get('numeroTelephone')?.hasError('invalidCameroonPhone')">
+                                {{ userForm.get('numeroTelephone')?.errors?.['invalidCameroonPhone'].message }}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <!-- Champ Mot de passe avec "œil" -->
+                        <mat-form-field appearance="outline" class="w-100" *ngIf="!isEditing">
+                            <mat-label>Mot de passe</mat-label>
+                            <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+                            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button"
+                                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                            <mat-error *ngIf="userForm.get('password')?.hasError('required')">Le mot de passe est
+                                obligatoire.</mat-error>
+                            <mat-error *ngIf="userForm.get('password')?.hasError('minlength')">6 caractères
+                                minimum.</mat-error>
+                        </mat-form-field>
+                        <p *ngIf="isEditing" class="text-muted small">Pour changer le mot de passe, veuillez utiliser la
+                            fonctionnalité "Mot de passe oublié".</p>
+
+                        <!-- Champs Rôle et Poste -->
+                        <div class="row gx-3 form-grid ">
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Rôle</mat-label>
+                                    <mat-select formControlName="role">
+                                        <mat-option *ngFor="let role of roles" [value]="role">{{role}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Poste</mat-label>
+                                    <mat-select formControlName="poste">
+                                        <mat-option *ngFor="let poste of postes" [value]="poste">{{poste}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="btn-box text-end mt-3">
+                            <button mat-stroked-button type="button" (click)="closeForm()" class="me-2">Annuler</button>
+                            <button mat-flat-button color="primary" type="submit"
+                                [disabled]="userForm.invalid || isLoading">
+                                <span *ngIf="!isLoading">{{ isEditing ? 'Mettre à jour' : 'Enregistrer' }}</span>
+                                <mat-progress-spinner *ngIf="isLoading" diameter="20" mode="indeterminate"
+                                    style="display:inline-block; margin-left:8px;"></mat-progress-spinner>
+                            </button>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+ 

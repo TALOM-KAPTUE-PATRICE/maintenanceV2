@@ -1,0 +1,51 @@
+// Reprend les styles des badges que nous avons définis pour les tickets
+.badge {
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #fff;
+}
+
+.status-nouveau {
+    background-color: #0d6efd;
+}
+
+.status-en_cours {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.status-en_arret {
+    background-color: #6c757d;
+}
+
+.status-termine {
+    background-color: #198754;
+}
+
+.status-cloture {
+    background-color: #212529;
+}
+
+/* Ajout pour le chargement */
+.loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    /* Ajuster pour ne pas couvrir le paginateur */
+    right: 0;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 10;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 11px;
+     letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}

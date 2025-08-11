@@ -1,0 +1,151 @@
+<mat-card class="da-list-card mb-25" [class.component-rtl-enabled]="themeService.isRTLEnabled()">
+  <mat-card-header>
+    <mat-card-title>
+      <h5>Demandes d'Achat</h5>
+    </mat-card-title>
+    <div class="d-flex align-items-center">
+      <form class="search-box position-relative me-3">
+        <i class="material-icons">search</i>
+        <input type="text" class="input-search" placeholder="Filtrer..." (keyup)="applyFilter($event)">
+      </form>
+      <button class="add-new-btn" type="button" mat-flat-button color="primary" (click)="openForm()">
+        <i class="material-icons">add</i>
+        Nouvelle DA
+      </button>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div *ngIf="isLoading" class="loading-shade">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="statut">
+            <th mat-header-cell *matHeaderCellDef> Statut </th>
+            <td mat-cell *matCellDef="let element">
+                <span class="badge" [ngClass]="'status-da-' + element.statut.toLowerCase()">{{ element.statut | titlecase }}</span>
+            </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="objet">
+          <th mat-header-cell *matHeaderCellDef> Objet </th>
+          <td mat-cell *matCellDef="let element" class="objet-cell"> {{element.objet | slice:0:40 }}{{element.objet.length > 40 ? '...' : ''}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="ticketTitre">
+          <th mat-header-cell *matHeaderCellDef> Projet (Ticket) </th>
+          <td mat-cell *matCellDef="let element"> {{element.ticketTitre}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="devisId">
+          <th mat-header-cell *matHeaderCellDef> Réf. Devis </th>
+          <td mat-cell *matCellDef="let element"> {{element.devisId}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="nomInitiateur">
+          <th mat-header-cell *matHeaderCellDef> Initiateur </th>
+          <td mat-cell *matCellDef="let element"> {{element.nomInitiateur}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="dateCreationDa">
+          <th mat-header-cell *matHeaderCellDef> Date Création </th>
+          <td mat-cell *matCellDef="let element"> {{element.dateCreationDa | date:'dd/MM/yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="openForm(element)" matTooltip="Modifier la DA">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="onPrint(element.id)" matTooltip="Imprimer la DA">
+                <mat-icon>print</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDelete(element.id)" matTooltip="Supprimer la DA">
+                <mat-icon>delete_outline</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow><td class="mat-cell" colspan="8" *ngIf="!isLoading">Aucune demande d'achat trouvée.</td></tr>
+      </table>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 15, 25]" showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>
+<!-- Formulaire Popup/Overlay -->
+<div class="add-new-popup" [class.active]="isFormVisible">
+  <div class="popup-dialog">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ isEditing ? 'Modifier la' : 'Créer une' }} Demande d'Achat</mat-card-title>
+        <button mat-icon-button (click)="closeForm()" class="close-btn"><mat-icon>close</mat-icon></button>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="daForm" (ngSubmit)="onSubmit()">
+          
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Projet Associé (Ticket)</mat-label>
+                <mat-select formControlName="ticketId" required>
+                  <mat-option *ngFor="let ticket of tickets" [value]="ticket.id">{{ ticket.id }} - {{ ticket.titre }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="daForm.get('ticketId')?.hasError('required')">Le projet est obligatoire.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Devis de Référence</mat-label>
+                <mat-select formControlName="devisId" required>
+                  <mat-option *ngFor="let devis of devisList" [value]="devis.id">{{ devis.id }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="daForm.get('devisId')?.hasError('required')">Le devis est obligatoire.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Objet de la demande</mat-label>
+            <input matInput formControlName="objet" required>
+            <mat-error *ngIf="daForm.get('objet')?.hasError('required')">L'objet est obligatoire.</mat-error>
+          </mat-form-field>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Service Demandeur</mat-label>
+                <input matInput formControlName="serviceDemandeur" required>
+                <mat-error *ngIf="daForm.get('serviceDemandeur')?.hasError('required')">Le service est obligatoire.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Lieu de Livraison</mat-label>
+                <input matInput formControlName="lieuLivraison" required>
+                <mat-error *ngIf="daForm.get('lieuLivraison')?.hasError('required')">Le lieu est obligatoire.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="btn-box text-end">
+            <button mat-stroked-button (click)="closeForm()" type="button">Annuler</button>
+            <button mat-flat-button color="primary" type="submit" [disabled]="daForm.invalid || isLoading">
+                <span *ngIf="!isLoading">{{ isEditing ? 'Modifier' : 'Enregistrer' }}</span>
+                <span *ngIf="isLoading">Enregistrement...</span>
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

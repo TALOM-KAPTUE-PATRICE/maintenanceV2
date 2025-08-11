@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="'Devis N° ' + ${devis.id}"></title>
+    <!-- Inclure ici le même style que pour demande_achat_template.html pour la cohérence -->
+    <style>
+          
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #605DFF;
+            padding-bottom: 10px;
+        }
+
+        .header .logo {
+            max-width: 100px;
+        }
+
+        .header .company-info {
+            text-align: right;
+        }
+
+        .header .company-info h1 {
+            margin: 0;
+            color: #605DFF;
+            font-size: 18px;
+        }
+
+        .header .company-info p {
+            margin: 2px 0;
+            font-size: 10px;
+            color: #555;
+        }
+
+        .title {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .title h2 {
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .info-table {
+            width: 100%;
+            margin-bottom: 25px;
+            border-collapse: collapse;
+        }
+
+        .info-table td {
+            padding: 8px;
+            font-size: 12px;
+        }
+
+        .info-table .label {
+            font-weight: bold;
+            width: 25%;
+            text-align: right;
+            padding-right: 15px;
+            color: #666;
+        }
+
+        img{ height: 50px; width: 50px; border-radius: 50% ;}
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #605DFF;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        .articles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .articles-table th,
+        .articles-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .articles-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .articles-table .text-right {
+            text-align: right;
+        }
+
+        .articles-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .total-section {
+            float: right;
+            width: 40%;
+            margin-top: 20px;
+        }
+
+        .total-table {
+            width: 100%;
+        }
+
+        .total-table td {
+            padding: 8px;
+        }
+
+        .total-table .label {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .total-table .value {
+            font-weight: bold;
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <!-- Assurez-vous que le logo est dans src/main/resources/static/images/ -->
+                <img th:src="@{images/BETANG.JPG}" alt="Logo" class="logo" />
+            </div>
+            <div class="company-info">
+                <h1>BETANG ENGINEERING S.A.R.L</h1>
+                <p>B.P. 12345, Douala, Cameroun</p>
+                <p>Tél: (+237) 690 00 00 00</p>
+            </div>
+
+        </div>
+
+        <div class="title">
+            <h2 th:text="'DEVIS N° ' + ${devis.id}">DEVIS N° D-2024-05-00001</h2>
+        </div>
+
+        <!-- Infos générales du devis -->
+        <table class="info-table">
+            <tr>
+                <td class="label">Date du devis :</td>
+                <td th:text="${#temporals.format(devis.dateCreation, 'dd MMMM yyyy')}"></td>
+                <td class="label">Valable jusqu'au :</td>
+                <td th:text="${#temporals.format(devis.dateValidite, 'dd MMMM yyyy')}"></td>
+            </tr>
+            <tr>
+                <td class="label">Site d'intervention :</td>
+                <td colspan="3" th:text="${devis.siteIntervention}"></td>
+            </tr>
+        </table>
+
+        <div class="section-title">Description des travaux</div>
+        <p th:text="${devis.description}"></p>
+
+        <!-- Boucle sur les catégories et les articles -->
+        <div th:each="categorie : ${devis.categories}">
+            <div class="section-title" th:text="${categorie.nomCategorie}"></div>
+            <table class="articles-table">
+                <thead>
+                    <tr>
+                        <th>Désignation</th>
+                        <th class="text-right">Quantité</th>
+                        <th class="text-right">Prix Unitaire</th>
+                        <th class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="article : ${categorie.articles}">
+                        <td th:text="${article.designation}"></td>
+                        <td class="text-right" th:text="${article.quantite}"></td>
+                        <td class="text-right"
+                            th:text="${#numbers.formatDecimal(article.prixUnitaire, 1, 'WHITESPACE', 2, 'COMMA')} + ' ' + ${devis.devise}">
+                        </td>
+                        <td class="text-right"
+                            th:text="${#numbers.formatDecimal(article.prixTotal, 1, 'WHITESPACE', 2, 'COMMA')} + ' ' + ${devis.devise}">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section des totaux -->
+        <div class="total-section">
+            <table class="total-table">
+                <tr>
+                    <td class="label">Total H.T :</td>
+                    <td class="value"
+                        th:text="${#numbers.formatDecimal(devis.totalHT, 1, 'WHITESPACE', 2, 'COMMA')} + ' ' + ${devis.devise}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">TVA (19.25%) :</td>
+                    <td class="value"
+                        th:text="${#numbers.formatDecimal(devis.tva, 1, 'WHITESPACE', 2, 'COMMA')} + ' ' + ${devis.devise}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label total-row">Total T.T.C :</td>
+                    <td class="value total-row"
+                        th:text="${#numbers.formatDecimal(devis.totalTTC, 1, 'WHITESPACE', 2, 'COMMA')} + ' ' + ${devis.devise}">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="clear: both;"></div>
+
+        <div class="section-title">Conditions</div>
+        <p>Arrêté le présent devis à la somme de : <strong
+                th:text="${devis.totalEnLettres} + ' ' + ${devis.devise}"></strong>.</p>
+        <!-- Autres conditions... -->
+    </div>
+</body>
+
+</html>
